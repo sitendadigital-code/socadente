@@ -5,7 +5,7 @@
 <script src="../assets/js/supabase-config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notícias – Só Cadente</title>
+<title>Publicações – Só Cadente</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -56,7 +56,7 @@ header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;
 .tab{padding:1rem 1.4rem;font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#999;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:color .3s,border-color .3s;background:none}
 .tab.a{color:var(--v);border-color:var(--v)}
 
-/* SEARCH + FILTER BAR (notícias) */
+/* SEARCH + FILTER BAR (publicações) */
 .filter-bar{background:var(--b);border-bottom:1px solid #E8E4DB;padding:1rem 0}
 .filter-bar-inner{max-width:1320px;margin:0 auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:.85rem}
 @media(min-width:700px){.filter-bar-inner{flex-direction:row;align-items:center;justify-content:space-between;padding:0 2.5rem}}
@@ -210,19 +210,19 @@ footer .back:hover{color:#fff}
     <nav class="bc">
       <a href="../index.html"><i class="fa-solid fa-house" style="font-size:.7rem"></i> Início</a>
       <span class="sep">/</span>
-      <span style="color:rgba(255,255,255,.65)" id="heroLabel">Notícias</span>
+      <span style="color:rgba(255,255,255,.65)" id="heroLabel">Dicas e novidades</span>
     </nav>
-    <div class="ey"><div class="r"></div><span>Atualizações</span></div>
-    <h1 class="hero-t">Notícias &<br>Informações</h1>
-    <p class="hero-sub">Este espaço será actualizado com notícias e informações institucionais verificadas da Só Cadente.</p>
+    <div class="ey"><div class="r"></div><span>Dicas e novidades</span></div>
+    <h1 class="hero-t">Publicações &<br>Galeria</h1>
+    <p class="hero-sub">Este espaço será actualizado com publicações e conteúdos da clínica da Só Cadente.</p>
   </div>
 </div>
 
 <!-- TABS -->
 <div class="tabs-bar" id="tabsBar">
   <div class="tabs-inner">
-    <button class="tab a" data-tab="noticias"><i class="fa-solid fa-newspaper" style="margin-right:.4rem;font-size:.75rem"></i>Notícias</button>
-    <button class="tab" data-tab="publicidades"><i class="fa-solid fa-bullhorn" style="margin-right:.4rem;font-size:.75rem"></i>Informações</button>
+    <button class="tab a" data-tab="noticias"><i class="fa-solid fa-newspaper" style="margin-right:.4rem;font-size:.75rem"></i>Publicações</button>
+    <button class="tab" data-tab="galeria"><i class="fa-solid fa-bullhorn" style="margin-right:.4rem;font-size:.75rem"></i>Galeria</button>
   </div>
 </div>
 
@@ -233,15 +233,15 @@ footer .back:hover{color:#fff}
     <div class="filter-bar-inner">
       <div class="search-wrap">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="search" id="searchInput" placeholder="Pesquisar notícias...">
+        <input type="search" id="searchInput" placeholder="Pesquisar publicações...">
       </div>
       <div class="cats">
         <button class="catb a" data-cat="all">Todas</button>
-        <button class="catb" data-cat="Infraestrutura">Infraestrutura</button>
-        <button class="catb" data-cat="Edificação">Edificação</button>
-        <button class="catb" data-cat="Sustentabilidade">Sustentabilidade</button>
-        <button class="catb" data-cat="Institucional">Institucional</button>
-        <button class="catb" data-cat="comercio">Comércio</button>
+        <button class="catb" data-cat="Dica de Saúde Oral">Dica de Saúde Oral</button>
+        <button class="catb" data-cat="Novidade Só Cadente">Novidade Só Cadente</button>
+        <button class="catb" data-cat="Promoção">Promoção</button>
+        <button class="catb" data-cat="Consulta">Consulta</button>
+        <button class="catb" data-cat="Evento">Evento</button>
       </div>
     </div>
   </div>
@@ -253,7 +253,7 @@ footer .back:hover{color:#fff}
 
   <!-- ARTICLE DETAIL -->
   <div id="articleView">
-    <button class="art-back" id="artBack"><i class="fa-solid fa-arrow-left" style="font-size:.72rem"></i> Voltar às Notícias</button>
+    <button class="art-back" id="artBack"><i class="fa-solid fa-arrow-left" style="font-size:.72rem"></i> Voltar às Publicações</button>
     <span class="art-cat" id="artCat"></span>
     <h1 class="art-title" id="artTitle"></h1>
     <div class="art-meta">
@@ -274,8 +274,8 @@ footer .back:hover{color:#fff}
   </div>
 </div>
 
-<!-- ── TAB: PUBLICIDADES ── -->
-<div id="tab-publicidades" class="hid">
+<!-- ── TAB: GALERIA ── -->
+<div id="tab-galeria" class="hid">
   <div class="main">
     <div id="adsGrid" class="ag"></div>
   </div>
@@ -291,15 +291,13 @@ footer .back:hover{color:#fff}
     </div>
     <div class="mbd">
       <div>
-        <p class="mdl">Descrição da Publicidade</p>
+        <p class="mdl">Descrição do item da galeria</p>
         <p id="adMDesc"></p>
         <a href="../index.html#contacto" class="mcta"><i class="fa-solid fa-paper-plane" style="font-size:.65rem"></i> Contactar</a>
       </div>
       <div class="mss">
         <p class="msht">Detalhes</p>
         <div class="msi"><span class="msk">Categoria</span><span id="adMCat" class="msv"></span></div>
-        <div class="msi"><span class="msk">Preço</span><span id="adMPrice" class="msv p"></span></div>
-        <div class="msi"><span class="msk">Contacto</span><span id="adMContact" class="msv"></span></div>
         <div class="msi"><span class="msk">Data</span><span id="adMDate" class="msv"></span></div>
       </div>
     </div>
@@ -321,10 +319,7 @@ footer .back:hover{color:#fff}
 (()=>{
 'use strict';
 
-const DEF_NEWS=[
-  {id:'n1',titulo:'Bem-vindo ao novo site da Só Cadente',resumo:'Este espaço receberá informações institucionais e novidades verificadas da empresa.',content:'Bem-vindo ao site da Só Cadente. As notícias serão adicionadas à medida que exista informação institucional confirmada.',categoria:'Institucional',data:'',img:'../assets/imagens/trabalho-exemplo-1.svg'},
-];
-
+const DEF_NEWS=[];
 const DEF_ADS=[];
 
 const DEF_IMG_FALLBACKS=[
@@ -343,7 +338,7 @@ const fD=s=>{try{return new Date(s).toLocaleDateString('pt-PT',{day:'2-digit',mo
 async function carregarDados(){
   try{
     const [n,a]=await Promise.all([SocadenteDB.list('news'),SocadenteDB.list('ads')]);
-    if(n && n.length) newsCache=n;
+    newsCache=n || [];
     if(a) adsCache=a.map(x=>({...x,descricao:x.descricao||x.desc}));
   }catch(e){ console.error('Falha ao carregar dados do Supabase, a usar dados padrão.', e); }
   renderNews();
@@ -365,7 +360,7 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 
   const isNot=activeTab==='noticias';
   document.getElementById('tab-noticias').classList.toggle('hid',!isNot);
-  document.getElementById('tab-publicidades').classList.toggle('hid',isNot);
+  document.getElementById('tab-galeria').classList.toggle('hid',isNot);
   document.getElementById('filterBar')?.classList.toggle('hid',!isNot);
 
   // Reset article view when switching tabs
@@ -375,7 +370,7 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
   }
   observeNew();
 }));
-if(location.hash==='#publicidades') document.querySelector('[data-tab="publicidades"]')?.click();
+if(location.hash==='#galeria') document.querySelector('[data-tab="galeria"]')?.click();
 
 // ── NOTÍCIAS ──────────────────────────────────────────
 let currentCat='all', currentSearch='', currentArticleId=null;
@@ -394,7 +389,7 @@ function renderNews(){
   const all=getFiltered();
   const g=document.getElementById('newsGrid');
   if(!all.length){
-    g.innerHTML=`<div class="no-results rv"><i class="fa-solid fa-newspaper"></i><p>Nenhuma notícia encontrada.<br>Tente ajustar os filtros ou a pesquisa.</p></div>`;
+    g.innerHTML=`<div class="no-results rv"><i class="fa-solid fa-newspaper"></i><p>Nenhuma publicação encontrada.<br>Tente ajustar os filtros ou a pesquisa.</p></div>`;
     observeNew();return;
   }
   g.innerHTML=all.map((n,i)=>{
@@ -409,7 +404,7 @@ function renderNews(){
         <p class="ndate"><i class="fa-regular fa-calendar" style="margin-right:.3rem;color:var(--o);font-size:.68rem"></i>${fD(n.data)}</p>
         <h2 class="ntit">${n.titulo}</h2>
         <p class="nresume">${n.resumo}</p>
-        <button class="nlink" data-read="${n.id}">Ler notícia completa <i class="fa-solid fa-arrow-right" style="font-size:.62rem"></i></button>
+        <button class="nlink" data-read="${n.id}">Ler publicação completa <i class="fa-solid fa-arrow-right" style="font-size:.62rem"></i></button>
       </div>
     </article>`;
   }).join('');
@@ -436,7 +431,7 @@ function openArticle(id){
   document.getElementById('artImg').src=img;
   document.getElementById('artImg').alt=n.titulo;
   document.getElementById('artBody').textContent=n.content||n.resumo;
-  document.getElementById('artTags').innerHTML=`<span class="art-tag">${n.categoria}</span><span class="art-tag">Construção</span><span class="art-tag">Só Cadente</span>`;
+  document.getElementById('artTags').innerHTML=`<span class="art-tag">${n.categoria}</span><span class="art-tag">Só Cadente</span>`;
 
   // Prev / Next
   const idx=all.findIndex(x=>String(x.id)===String(id));
@@ -494,11 +489,11 @@ document.querySelectorAll('.catb').forEach(b=>b.addEventListener('click',()=>{
   currentCat=b.dataset.cat;renderNews();
 }));
 
-// ── PUBLICIDADES ──────────────────────────────────────
+// ── GALERIA ──────────────────────────────────────
 function renderAds(){
   const ads=lA(),imgs=lAI(),g=document.getElementById('adsGrid');
   if(!ads.length){
-    g.innerHTML='<div class="empty rv"><i class="fa-solid fa-bullhorn"></i><p>Nenhuma publicidade disponível de momento.</p></div>';
+    g.innerHTML='<div class="empty rv"><i class="fa-solid fa-bullhorn"></i><p>Nenhuma item da galeria disponível de momento.</p></div>';
     observeNew();return;
   }
   g.innerHTML=ads.map((ad,i)=>`
@@ -511,7 +506,7 @@ function renderAds(){
         <h3 class="atit">${ad.titulo}</h3>
         <p class="adesc">${ad.descricao}</p>
         <div class="afoot">
-          <span class="aprice">${ad.preco||'Sob consulta'}</span>
+          <span class="aprice">${fD(ad.data)}</span>
           <button class="acta" data-open="${ad.id}">Saber mais <i class="fa-solid fa-arrow-right" style="font-size:.6rem"></i></button>
         </div>
       </div>
@@ -529,8 +524,6 @@ function openAdModal(id){
   document.getElementById('adMTitle').textContent=ad.titulo;
   document.getElementById('adMDesc').textContent=ad.descricao;
   document.getElementById('adMCat').textContent=ad.categoria;
-  document.getElementById('adMPrice').textContent=ad.preco||'Sob consulta';
-  document.getElementById('adMContact').textContent=ad.contacto||'—';
   document.getElementById('adMDate').textContent=fD(ad.data);
   document.getElementById('adModal').classList.add('o');
   document.body.style.overflow='hidden';
