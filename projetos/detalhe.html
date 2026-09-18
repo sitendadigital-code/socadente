@@ -5,7 +5,7 @@
 <script src="../assets/js/supabase-config.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projectos – Só Cadente</title>
+<title>Trabalhos – Só Cadente</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -150,11 +150,11 @@ footer .back:hover{color:#fff}
     <nav class="bc">
       <a href="../index.html"><i class="fa-solid fa-house" style="font-size:.7rem"></i> Início</a>
       <span class="sep">/</span>
-      <span style="color:rgba(255,255,255,.65)">Áreas de Actuação</span>
+      <span style="color:rgba(255,255,255,.65)">Trabalhos</span>
     </nav>
-    <div class="ey"><div class="r"></div><span>Trabalhos Feitos por Nós</span></div>
-    <h1 class="hero-t">Áreas e Tipos<br>de Obra</h1>
-    <p class="hero-sub">Conheça os projectos em que a Só Cadente actuou. Estas são obras executadas pela empresa.</p>
+    <div class="ey"><div class="r"></div><span>Resultados clínicos</span></div>
+    <h1 class="hero-t">Nossos<br>Trabalhos</h1>
+    <p class="hero-sub">Conheça os tratamentos e resultados partilhados pela Só Cadente.</p>
   </div>
 </div>
 
@@ -163,11 +163,23 @@ footer .back:hover{color:#fff}
   <div class="filter-bar-inner">
     <div class="fb-group">
       <button class="fb a" data-filter="all">Todos</button>
-      <button class="fb" data-filter="Limpeza Dentária">Comércio</button>
-      <button class="fb" data-filter="Restaurações">Construção</button>
-      <button class="fb" data-filter="Clareamento Dental">Clareamento Dental</button>
+      <button class="fb" data-filter="Limpeza Dentária">Higiene</button>
+      <button class="fb" data-filter="Clareamento Dental">Clareamento</button>
+      <button class="fb" data-filter="Restaurações">Restaurações</button>
+      <button class="fb" data-filter="Tratamento de Cáries">Cáries</button>
+      <button class="fb" data-filter="Extrações">Extrações</button>
+      <button class="fb" data-filter="Tratamento de Gengiva">Gengiva</button>
+      <button class="fb" data-filter="Implantes Dentários">Implantes</button>
+      <button class="fb" data-filter="Próteses Dentárias">Próteses</button>
+      <button class="fb" data-filter="Aparelhos Ortodônticos">Ortodontia</button>
+      <button class="fb" data-filter="Endodontia (Canal)">Canal</button>
+      <button class="fb" data-filter="Facetas de Porcelana">Facetas</button>
+      <button class="fb" data-filter="Odontopediatria">Infantil</button>
+      <button class="fb" data-filter="Reabilitação Oral">Reabilitação</button>
+      <button class="fb" data-filter="Dentes de Ouro">Dentes de Ouro</button>
+      <button class="fb" data-filter="Lavagem Geral / Higiene Completa">Higiene completa</button>
     </div>
-    <span class="count-lbl">A mostrar <strong id="countVal">0</strong> exemplos</span>
+    <span class="count-lbl">A mostrar <strong id="countVal">0</strong> trabalhos</span>
   </div>
 </div>
 
@@ -177,7 +189,7 @@ footer .back:hover{color:#fff}
 </div>
 
 <!-- MODAL -->
-<div id="md" role="dialog" aria-modal="true" aria-label="Detalhe do projeto">
+<div id="md" role="dialog" aria-modal="true" aria-label="Detalhe do trabalho">
   <div id="mdc">
     <div class="miw">
       <img id="mImg" alt="">
@@ -186,15 +198,15 @@ footer .back:hover{color:#fff}
     </div>
     <div class="mbd">
       <div>
-        <p class="mdl">Descrição do Projeto</p>
+        <p class="mdl">Descrição do tratamento</p>
         <p id="mde"></p>
         <a href="../index.html#contacto" class="mcta"><i class="fa-solid fa-paper-plane" style="font-size:.65rem"></i> Solicitar Proposta</a>
       </div>
       <div class="mss">
-        <p class="msht">Ficha Técnica</p>
-        <div class="msi"><span class="msk">Localização</span><span id="mv1" class="msv"></span></div>
-        <div class="msi"><span class="msk">Ano</span><span id="mv2" class="msv"></span></div>
-        <div class="msi"><span class="msk">Categoria</span><span id="mv4" class="msv g"></span></div>
+        <p class="msht">Detalhes do tratamento</p>
+        <div class="msi"><span class="msk">Preço</span><span id="mv1" class="msv"></span></div>
+        <div class="msi"><span class="msk">Data</span><span id="mv2" class="msv"></span></div>
+        <div class="msi"><span class="msk">Serviço</span><span id="mv4" class="msv g"></span></div>
       </div>
     </div>
   </div>
@@ -215,13 +227,8 @@ footer .back:hover{color:#fff}
 (()=>{
 'use strict';
 
-const DEF=[
-  {id:'p1',titulo:'Fornecimento e logística',categoria:'Limpeza Dentária',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de fornecimento de materiais e apoio logístico; não representa uma obra ou contrato realizado pela Só Cadente.',img:'../assets/imagens/trabalho-exemplo-1.svg'},
-  {id:'p2',titulo:'Restauração estética',categoria:'Restaurações',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de tratamento dentário; não representa uma obra realizada pela Só Cadente.',img:'../assets/imagens/trabalho-exemplo-2.svg'},
-  {id:'p3',titulo:'Clareamento dental',categoria:'Clareamento Dental',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de tratamento dentário; não representa uma obra realizada pela Só Cadente.',img:'../assets/imagens/trabalho-exemplo-3.svg'},
-];
-
-const catLabel={'Limpeza Dentária':'Limpeza Dentária','Restaurações':'Restaurações','Clareamento Dental':'Clareamento Dental'};
+const DEF=[];
+const catLabel={};
 
 // ── CACHE EM MEMÓRIA (preenchida a partir do Supabase) ──
 let projectsCache=DEF;
@@ -230,7 +237,7 @@ const load=()=>projectsCache;
 async function carregarDados(){
   try{
     const p=await SocadenteDB.list('projects');
-    if(p && p.length) projectsCache=p.map(x=>({...x,desc:x.descricao||x.desc}));
+    projectsCache=(p || []).map(x=>({...x,desc:x.descricao||x.desc}));
   }catch(e){ console.error('Falha ao carregar dados do Supabase, a usar dados padrão.', e); }
   renderProjects();
 }
@@ -261,7 +268,7 @@ function renderProjects(filter){
   countEl.textContent=filtered.length;
 
   if(!filtered.length){
-    grid.innerHTML='<div class="no-results rv"><i class="fa-solid fa-building"></i><p>Nenhum projeto encontrado para esta categoria.</p></div>';
+    grid.innerHTML='<div class="no-results rv"><i class="fa-solid fa-building"></i><p>Nenhum trabalho encontrado para este serviço.</p></div>';
     document.querySelectorAll('.rv:not(.in)').forEach(el=>rObs.observe(el));
     return;
   }
@@ -270,12 +277,12 @@ function renderProjects(filter){
     <div class="pc rv" style="transition-delay:${(i%3)*.08}s" data-id="${p.id}">
       <div class="ciw">
         <span class="cbg">${catLabel[p.categoria]||p.categoria}</span>
-        <img src="${p.img}" alt="${p.titulo}" loading="lazy" onerror="this.src='../assets/imagens/trabalho-exemplo-1.svg'">
+        <img src="${p.img || p.imagem_depois || p.imagem_antes || '../assets/imagens/trabalho-exemplo-1.svg'}" alt="${p.titulo}" loading="lazy">
         <div class="cov"><span><i class="fa-solid fa-expand" style="font-size:.8rem"></i> Ver Detalhes</span></div>
       </div>
       <div class="cb">
-        <div class="cm2"><h3 class="ctt">${p.titulo}</h3><span class="cy">${p.ano}</span></div>
-        <p class="cloc"><i class="fa-solid fa-location-dot"></i> ${p.local}</p>
+        <div class="cm2"><h3 class="ctt">${p.titulo}</h3><span class="cy">${p.preco == null ? 'Sob consulta' : Number(p.preco).toLocaleString('pt-PT') + ' Kz'}</span></div>
+        <p class="cloc"><i class="fa-regular fa-calendar"></i> ${p.data || '—'}</p>
       </div>
     </div>`).join('');
 
@@ -293,11 +300,11 @@ const md=document.getElementById('md');
 function openModal(id){
   const p=load().find(x=>String(x.id)===String(id));
   if(!p)return;
-  document.getElementById('mImg').src=p.img||'';
+  document.getElementById('mImg').src=p.img||p.imagem_depois||p.imagem_antes||'';
   document.getElementById('mti').textContent=p.titulo;
   document.getElementById('mde').textContent=p.desc;
-  document.getElementById('mv1').textContent=p.local||'—';
-  document.getElementById('mv2').textContent=p.ano||'—';
+  document.getElementById('mv1').textContent=p.preco == null ? 'Sob consulta' : Number(p.preco).toLocaleString('pt-PT')+' Kz';
+  document.getElementById('mv2').textContent=p.data||'—';
   document.getElementById('mv4').textContent=catLabel[p.categoria]||p.categoria||'—';
   md.classList.add('o');document.body.style.overflow='hidden';
 }

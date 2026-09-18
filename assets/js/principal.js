@@ -27,14 +27,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   const openProject = project => { $('#modalImage').src = imageFor(project); $('#modalImage').alt = project.titulo; $('#modalTitle').textContent = project.titulo; $('#modalDescription').textContent = project.descricao || ''; $('#modalCategory').textContent = project.categoria || 'Tratamento'; $('#modalYear').textContent = project.data || '—'; $('#modalLocation').textContent = formatPrice(project.preco); modal?.classList.add('open'); };
   let projects = fallbackProjects;
   try { const data = await SocadenteDB.list('projects'); if (data.length) projects = data; } catch (error) { console.info('Trabalhos disponíveis quando a ligação for estabelecida.', error); }
+  projects.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
   const projectsGrid = $('#projectsGrid');
-  const renderProjects = filter => { if (!projectsGrid) return; const selected = filter === 'all' ? projects : projects.filter(project => project.categoria === filter); projectsGrid.innerHTML = selected.length ? selected.map(card).join('') : '<p class="no-projects">Ainda não há trabalhos nesta categoria.</p>'; projectsGrid.querySelectorAll('.project-card').forEach(el => el.addEventListener('click', () => openProject(projects.find(project => String(project.id || '') === el.dataset.id) || selected.find(project => project.titulo === el.querySelector('.card-title').textContent)))); projectsGrid.querySelectorAll('.reveal').forEach(el => { el.classList.add('in-view', 'visible'); }); };
+  const renderProjects = filter => { if (!projectsGrid) return; const matching = filter === 'all' ? projects : projects.filter(project => project.categoria === filter); const selected = matching.slice(0, 3); projectsGrid.innerHTML = selected.length ? selected.map(card).join('') : '<p class="no-projects">Ainda não há trabalhos nesta categoria.</p>'; projectsGrid.querySelectorAll('.project-card').forEach(el => el.addEventListener('click', () => openProject(projects.find(project => String(project.id || '') === el.dataset.id) || selected.find(project => project.titulo === el.querySelector('.card-title').textContent)))); projectsGrid.querySelectorAll('.reveal').forEach(el => { el.classList.add('in-view', 'visible'); }); };
   renderProjects('all'); document.querySelectorAll('.filter-btn').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.filter-btn').forEach(item => item.classList.remove('active')); button.classList.add('active'); renderProjects(button.dataset.filter); }));
 
-  const posts = [{ titulo: 'Cuide do seu sorriso todos os dias', resumo: 'Escove os dentes, use fio dental e marque a sua avaliação periódica.', categoria: 'Dica de saúde oral', imagem: 'assets/imagens/sobre-consulta.svg' }, { titulo: 'Atendimento ao domicílio', resumo: 'Fale connosco para saber como podemos levar o cuidado até si.', categoria: 'Só Cadente', imagem: 'assets/imagens/paciente-sorridente.svg' }, { titulo: 'Marque pelo WhatsApp', resumo: 'Uma forma rápida de tirar dúvidas e reservar o seu horário.', categoria: 'Consulta', imagem: 'assets/imagens/hero-clinica.svg' }];
-  let news = posts, current = 0; try { const data = await SocadenteDB.list('news'); if (data.length) news = data; } catch (_) { /* Conteúdo institucional permanece disponível. */ }
+  const fallbackPosts = [];
+  let news = fallbackPosts, current = 0;
+  try {
+    const [publicationRows, galleryRows] = await Promise.all([SocadenteDB.list('news'), SocadenteDB.list('ads')]);
+    news = [...(publicationRows || []), ...(galleryRows || []).map(item => ({ ...item, resumo: item.descricao || item.resumo, tipo: 'Galeria' }))]
+      .filter(item => Boolean(item.carrossel))
+      .sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+  } catch (_) { console.info('Carrossel disponível quando a ligação for estabelecida.'); }
   const track = $('#noticias-track'), dots = $('#carousel-dots');
-  const renderNews = () => { if (!track) return; const item = news[current]; track.innerHTML = `<article class="noticia-card"><img src="${item.imagem || item.image || posts[0].imagem}" alt="${item.titulo}" loading="lazy"><div class="noticia-conteudo"><span class="noticia-meta">${item.categoria || 'Só Cadente'}</span><h3>${item.titulo}</h3><p>${item.resumo || item.descricao || ''}</p></div></article>`; $('#slide-atual').textContent = current + 1; $('#slide-total').textContent = news.length; dots.innerHTML = news.map((_, index) => `<button class="carousel-dot ${index === current ? 'active' : ''}" aria-label="Publicação ${index + 1}"></button>`).join(''); dots.querySelectorAll('button').forEach((button, index) => button.addEventListener('click', () => { current = index; renderNews(); })); };
-  $('#noticias-prev')?.addEventListener('click', () => { current = (current - 1 + news.length) % news.length; renderNews(); }); $('#noticias-next')?.addEventListener('click', () => { current = (current + 1) % news.length; renderNews(); }); renderNews();
+  const renderNews = () => {
+    if (!track) return;
+    if (!news.length) {
+      track.innerHTML = '<p class="no-projects">Ainda não há publicações ou itens de galeria para o carrossel.</p>';
+      $('#slide-atual').textContent = '0'; $('#slide-total').textContent = '0'; dots.innerHTML = ''; return;
+    }
+    const item = news[current];
+    track.innerHTML = `<article class="noticia-card"><img src="${item.img || item.imagem || 'assets/imagens/sobre-consulta.svg'}" alt="${item.titulo}" loading="lazy"><div class="noticia-conteudo"><span class="noticia-meta">${item.tipo || item.categoria || 'Só Cadente'}</span><h3>${item.titulo}</h3><p>${item.resumo || item.descricao || ''}</p></div></article>`;
+    $('#slide-atual').textContent = current + 1; $('#slide-total').textContent = news.length;
+    dots.innerHTML = news.map((_, index) => `<button class="carousel-dot ${index === current ? 'active' : ''}" aria-label="Item ${index + 1}"></button>`).join('');
+    dots.querySelectorAll('button').forEach((button, index) => button.addEventListener('click', () => { current = index; renderNews(); }));
+  };
+  $('#noticias-prev')?.addEventListener('click', () => { if (!news.length) return; current = (current - 1 + news.length) % news.length; renderNews(); });
+  $('#noticias-next')?.addEventListener('click', () => { if (!news.length) return; current = (current + 1) % news.length; renderNews(); }); renderNews();
   $('#formulario-contacto')?.addEventListener('submit', async event => { event.preventDefault(); const success = $('#form-success'); try { await SocadenteDB.insert('contact_requests', Object.fromEntries(new FormData(event.target))); success.classList.add('show'); event.target.reset(); } catch (_) { success.textContent = 'Não foi possível enviar agora. Fale connosco pelo WhatsApp: 935 976 620.'; success.classList.add('show'); } });
 });
