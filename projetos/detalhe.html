@@ -1,1 +1,315 @@
-<!doctype html><html lang="pt"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trabalho clínico — Só Cadente</title><meta name="description" content="Resultados e casos clínicos da Só Cadente."><meta property="og:title" content="Só Cadente — Nossos Trabalhos"><link rel="icon" href="../favicon.ico"><link rel="stylesheet" href="../assets/css/estilos.css"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet"></head><body><header class="site-header"><nav class="nav"><a class="brand" href="../index.html"><img src="../assets/imagens/logo.png" alt="Só Cadente"><span>Só Cadente<small>Clínica Dentária</small></span></a><a class="btn" href="https://wa.me/244935976620">Marcar consulta</a></nav></header><main class="section"><article class="container" style="max-width:850px"><span class="eyebrow">Nossos Trabalhos</span><h1 class="section-title">Caso clínico</h1><p class="lead">Os casos exibidos nesta área preservam a privacidade dos pacientes e apresentam apenas informação relevante sobre o tratamento.</p><div class="before-after"><div><span class="badge before">Antes</span><div class="case-image">Antes</div></div><div><span class="badge after">Depois</span><div class="case-image after-img">Depois</div></div></div><p><strong>Serviço realizado:</strong> definido pelo gestor</p><p><strong>Data:</strong> definida pelo gestor</p><p><strong>Categoria do tratamento:</strong> definida pelo gestor</p><p><strong>Preço:</strong> sob consulta quando não indicado.</p><a class="btn" href="../index.html#trabalhos">Voltar aos trabalhos</a></article></main></body></html>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../assets/js/supabase-config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projectos – Só Cadente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--preto:#082f49;--laranja:#0EA5E9;--laranja-lt:#7DD3FC;--azul:#00ADF1;--azul-md:#0089C2;--osso:#F7F5F1;--branco:#FFFFFF;--pedra:#6B6B68;--pedra-lt:#A7A5A0;--v:var(--laranja);--vm:var(--azul-md);--vl:var(--azul);--o:var(--laranja);--ol:var(--laranja-lt);--c:var(--preto);--cm:var(--preto);--cr:var(--osso);--b:var(--branco);--ease:cubic-bezier(.16,1,.3,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;color:var(--c);background:var(--b);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--v);border-radius:4px}
+
+/* HEADER */
+header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(243,130,31,.12)}
+.hw{max-width:1320px;margin:0 auto;padding:.9rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+@media(min-width:768px){.hw{padding:.95rem 2.5rem}}
+.lw{display:flex;align-items:center;gap:.6rem}
+.lm{width:34px;height:34px;border-radius:7px;background:var(--v);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.lm img{width:34px;height:34px;object-fit:cover}
+.lm-txt{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.06em;display:none}
+.ln{display:block;font-family:'Bebas Neue',sans-serif;color:#fff;font-size:1.1rem;letter-spacing:.15em;line-height:1}
+.lt{display:block;color:rgba(255,255,255,.38);font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;margin-top:4px}
+.hbtn{display:inline-flex;align-items:center;gap:.45rem;background:var(--v);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.55rem 1.25rem;border-radius:6px;transition:background .3s}
+.hbtn:hover{background:var(--vl)}
+
+/* HERO BANNER */
+.hero{background:var(--cm);padding:4rem 0 3rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=55') center/cover;opacity:.1;pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(28,28,26,.65),rgba(28,28,26,.98));pointer-events:none}
+.hero-c{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:768px){.hero-c{padding:0 2.5rem}}
+.bc{display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:rgba(255,255,255,.42);margin-bottom:1.5rem;flex-wrap:wrap}
+.bc a{color:rgba(255,255,255,.42);transition:color .3s}.bc a:hover{color:#fff}
+.bc .sep{color:rgba(255,255,255,.18)}
+.ey{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+.ey .r{height:1px;width:26px;background:var(--o);flex-shrink:0}
+.ey span{font-size:.64rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--o)}
+.hero-t{font-family:'Archivo Black',sans-serif;font-weight:900;font-size:clamp(2.4rem,5.5vw,4.8rem);color:#fff;line-height:.95;margin-top:.5rem}
+.hero-sub{color:rgba(255,255,255,.52);font-size:.93rem;line-height:1.72;max-width:520px;margin-top:1rem}
+
+/* FILTER BAR */
+.filter-bar{background:var(--cr);border-bottom:1px solid #E8E4DB;padding:1.1rem 0;position:sticky;top:55px;z-index:90}
+.filter-bar-inner{max-width:1320px;margin:0 auto;padding:0 1.5rem;display:flex;flex-wrap:wrap;gap:.42rem;align-items:center;justify-content:space-between}
+@media(min-width:768px){.filter-bar-inner{padding:0 2.5rem}}
+.fb-group{display:flex;flex-wrap:wrap;gap:.42rem}
+.fb{border:1px solid #E8E4DB;color:#888;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.38rem .85rem;border-radius:100px;transition:all .3s;background:#fff}
+.fb:hover{border-color:var(--v);color:var(--v)}
+.fb.a{background:var(--v);border-color:var(--v);color:#fff;font-weight:600}
+.count-lbl{font-size:.74rem;color:#aaa;white-space:nowrap}
+.count-lbl strong{color:var(--c)}
+
+/* MAIN */
+.main{max-width:1320px;margin:0 auto;padding:3.5rem 1.5rem 5rem}
+@media(min-width:768px){.main{padding:4.5rem 2.5rem 6rem}}
+
+/* PROJECTS GRID */
+.pg{display:grid;gap:1.1rem}
+@media(min-width:540px){.pg{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.pg{grid-template-columns:repeat(3,1fr)}}
+.pc{background:#fff;border:1px solid #EAE6DE;border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .42s var(--ease),box-shadow .42s}
+.pc:hover{transform:translateY(-5px);box-shadow:0 22px 55px rgba(0,0,0,.12)}
+.ciw{position:relative;height:230px;overflow:hidden}
+.ciw img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.pc:hover .ciw img{transform:scale(1.07)}
+.cov{position:absolute;inset:0;background:rgba(243,130,31,.78);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .35s}
+.pc:hover .cov{opacity:1}
+.cov span{color:#fff;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:.45rem}
+.cbg{position:absolute;top:.85rem;left:.85rem;background:rgba(243,130,31,.92);color:#fff;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.26rem .7rem;border-radius:100px;z-index:1}
+.cb{padding:1.1rem 1.25rem 1.3rem}
+.cm2{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.ctt{font-size:.95rem;font-weight:600;color:var(--c);line-height:1.3}
+.cy{font-family:'Bebas Neue',sans-serif;color:var(--o);font-size:.95rem;flex-shrink:0}
+.cloc{color:#aaa;font-size:.74rem;margin-top:.3rem}
+.cloc i{color:var(--o);font-size:.62rem;margin-right:.25rem}
+.cf{display:flex;justify-content:space-between;align-items:center;margin-top:.9rem;padding-top:.9rem;border-top:1px solid #F0EDE6}
+.cdl{font-size:.6rem;color:#ccc;text-transform:uppercase;letter-spacing:.14em}
+.cdv{font-size:.82rem;font-weight:600;color:var(--v)}
+.no-results{text-align:center;padding:5rem 2rem;grid-column:1/-1;color:#ccc}
+.no-results i{font-size:2.8rem;display:block;margin-bottom:1rem;color:#e8e4db}
+.no-results p{font-size:.88rem;color:#aaa;line-height:1.65}
+
+/* MODAL */
+#md{position:fixed;inset:0;background:rgba(0,0,0,.87);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:300;padding:1.2rem}
+#md.o{display:flex}
+#mdc{background:var(--b);width:100%;max-width:880px;border-radius:20px;overflow:hidden;transform:scale(.94) translateY(22px);opacity:0;transition:transform .42s var(--ease),opacity .42s;max-height:90vh;overflow-y:auto}
+#md.o #mdc{transform:scale(1) translateY(0);opacity:1}
+.miw{position:relative;height:250px}
+@media(min-width:700px){.miw{height:340px}}
+.miw img{width:100%;height:100%;object-fit:cover;display:block}
+.miw::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,16,.72),transparent 50%)}
+#cmd{position:absolute;top:.9rem;right:.9rem;z-index:1;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.32);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:background .3s}
+#cmd:hover{background:rgba(255,255,255,.14)}
+.mtw{position:absolute;bottom:1.4rem;left:2rem;z-index:1}
+#mti{font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#fff}
+.mbd{padding:1.8rem}
+@media(min-width:700px){.mbd{display:grid;grid-template-columns:3fr 2fr;gap:2rem;padding:2.4rem}}
+.mdl{font-size:.64rem;color:#aaa;text-transform:uppercase;letter-spacing:.16em;margin-bottom:.72rem}
+#mde{color:#555;line-height:1.82;font-size:.9rem}
+.mss{background:var(--cr);border-radius:12px;padding:1.4rem}
+.msht{font-size:.64rem;color:#aaa;text-transform:uppercase;letter-spacing:.16em;margin-bottom:.95rem}
+.msi{display:flex;justify-content:space-between;align-items:center;padding:.48rem 0;border-bottom:1px solid #E8E4DB}
+.msi:last-child{border-bottom:none}
+.msk{font-size:.8rem;color:#999}
+.msv{font-size:.82rem;font-weight:600;color:var(--c)}
+.msv.g{color:var(--v)}
+.mcta{display:inline-flex;align-items:center;gap:.5rem;background:var(--v);color:#fff;font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.82rem 1.7rem;border-radius:7px;margin-top:1.6rem;transition:background .3s,transform .25s}
+.mcta:hover{background:var(--vl);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:#090909;color:#555;padding:2rem 0}
+.fw{max-width:1320px;margin:0 auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1rem;align-items:center;text-align:center}
+@media(min-width:768px){.fw{flex-direction:row;justify-content:space-between;text-align:left;padding:0 2.5rem}}
+footer p{font-size:.76rem}
+footer .back{font-size:.76rem;color:#555;transition:color .3s;display:inline-flex;align-items:center;gap:.4rem}
+footer .back:hover{color:#fff}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hw">
+    <a href="../index.html" class="lw">
+      <div class="lm">
+        <img src="../assets/imagens/logo.png" alt="Logótipo Só Cadente" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="lm-txt">Só Cadente</span>
+      </div>
+      <div><span class="ln">Só Cadente</span><span class="lt">Clínica Dentária · Luanda</span></div>
+    </a>
+    <a href="../index.html#contacto" class="hbtn"><i class="fa-solid fa-paper-plane" style="font-size:.64rem"></i> Solicitar Proposta</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-c">
+    <nav class="bc">
+      <a href="../index.html"><i class="fa-solid fa-house" style="font-size:.7rem"></i> Início</a>
+      <span class="sep">/</span>
+      <span style="color:rgba(255,255,255,.65)">Áreas de Actuação</span>
+    </nav>
+    <div class="ey"><div class="r"></div><span>Trabalhos Feitos por Nós</span></div>
+    <h1 class="hero-t">Áreas e Tipos<br>de Obra</h1>
+    <p class="hero-sub">Conheça os projectos em que a Só Cadente actuou. Estas são obras executadas pela empresa.</p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <div class="fb-group">
+      <button class="fb a" data-filter="all">Todos</button>
+      <button class="fb" data-filter="Limpeza Dentária">Comércio</button>
+      <button class="fb" data-filter="Restaurações">Construção</button>
+      <button class="fb" data-filter="Clareamento Dental">Clareamento Dental</button>
+    </div>
+    <span class="count-lbl">A mostrar <strong id="countVal">0</strong> exemplos</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="main">
+  <div class="pg rv" id="pGrid"></div>
+</div>
+
+<!-- MODAL -->
+<div id="md" role="dialog" aria-modal="true" aria-label="Detalhe do projeto">
+  <div id="mdc">
+    <div class="miw">
+      <img id="mImg" alt="">
+      <button id="cmd" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <div class="mtw"><h2 id="mti"></h2></div>
+    </div>
+    <div class="mbd">
+      <div>
+        <p class="mdl">Descrição do Projeto</p>
+        <p id="mde"></p>
+        <a href="../index.html#contacto" class="mcta"><i class="fa-solid fa-paper-plane" style="font-size:.65rem"></i> Solicitar Proposta</a>
+      </div>
+      <div class="mss">
+        <p class="msht">Ficha Técnica</p>
+        <div class="msi"><span class="msk">Localização</span><span id="mv1" class="msv"></span></div>
+        <div class="msi"><span class="msk">Ano</span><span id="mv2" class="msv"></span></div>
+        <div class="msi"><span class="msk">Categoria</span><span id="mv4" class="msv g"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fw">
+    <p>© 2026 Só Cadente. Todos os direitos reservados.</p>
+    <a href="../index.html" class="back"><i class="fa-solid fa-arrow-left" style="font-size:.7rem"></i> Voltar ao Início</a>
+  </div>
+</footer>
+
+<script>
+/* =====================================================
+   SÓ CADENTE, LDA – projetos/detalhe.html
+   Dados dinâmicos via Supabase (tabela: projects)
+   ===================================================== */
+(()=>{
+'use strict';
+
+const DEF=[
+  {id:'p1',titulo:'Fornecimento e logística',categoria:'Limpeza Dentária',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de fornecimento de materiais e apoio logístico; não representa uma obra ou contrato realizado pela Só Cadente.',img:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'},
+  {id:'p2',titulo:'Restauração estética',categoria:'Restaurações',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de tratamento dentário; não representa uma obra realizada pela Só Cadente.',img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80'},
+  {id:'p3',titulo:'Clareamento dental',categoria:'Clareamento Dental',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de tratamento dentário; não representa uma obra realizada pela Só Cadente.',img:'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80'},
+];
+
+const catLabel={'Limpeza Dentária':'Limpeza Dentária','Restaurações':'Restaurações','Clareamento Dental':'Clareamento Dental'};
+
+// ── CACHE EM MEMÓRIA (preenchida a partir do Supabase) ──
+let projectsCache=DEF;
+const load=()=>projectsCache;
+
+async function carregarDados(){
+  try{
+    const p=await SocadenteDB.list('projects');
+    if(p && p.length) projectsCache=p.map(x=>({...x,desc:x.descricao||x.desc}));
+  }catch(e){ console.error('Falha ao carregar dados do Supabase, a usar dados padrão.', e); }
+  renderProjects();
+}
+
+// REVEAL
+const rObs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');rObs.unobserve(e.target);}
+}),{threshold:.06});
+document.querySelectorAll('.rv').forEach(el=>rObs.observe(el));
+
+let activeFilter='all';
+
+// Read URL param
+const urlParam=new URLSearchParams(location.search).get('filter');
+if(urlParam&&urlParam!=='all'){activeFilter=urlParam;}
+
+// RENDER
+function renderProjects(filter){
+  activeFilter=filter||activeFilter;
+  const all=load();
+  const filtered=activeFilter==='all'?all:all.filter(p=>p.categoria===activeFilter);
+  const grid=document.getElementById('pGrid');
+  const countEl=document.getElementById('countVal');
+
+  // Update filter buttons
+  document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('a',b.dataset.filter===activeFilter));
+
+  countEl.textContent=filtered.length;
+
+  if(!filtered.length){
+    grid.innerHTML='<div class="no-results rv"><i class="fa-solid fa-building"></i><p>Nenhum projeto encontrado para esta categoria.</p></div>';
+    document.querySelectorAll('.rv:not(.in)').forEach(el=>rObs.observe(el));
+    return;
+  }
+
+  grid.innerHTML=filtered.map((p,i)=>`
+    <div class="pc rv" style="transition-delay:${(i%3)*.08}s" data-id="${p.id}">
+      <div class="ciw">
+        <span class="cbg">${catLabel[p.categoria]||p.categoria}</span>
+        <img src="${p.img}" alt="${p.titulo}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=60'">
+        <div class="cov"><span><i class="fa-solid fa-expand" style="font-size:.8rem"></i> Ver Detalhes</span></div>
+      </div>
+      <div class="cb">
+        <div class="cm2"><h3 class="ctt">${p.titulo}</h3><span class="cy">${p.ano}</span></div>
+        <p class="cloc"><i class="fa-solid fa-location-dot"></i> ${p.local}</p>
+      </div>
+    </div>`).join('');
+
+  grid.querySelectorAll('.pc').forEach(c=>c.addEventListener('click',()=>openModal(c.dataset.id)));
+  document.querySelectorAll('.rv:not(.in)').forEach(el=>rObs.observe(el));
+}
+
+// FILTERS
+document.querySelectorAll('.fb').forEach(btn=>btn.addEventListener('click',()=>{
+  renderProjects(btn.dataset.filter);
+}));
+
+// MODAL
+const md=document.getElementById('md');
+function openModal(id){
+  const p=load().find(x=>String(x.id)===String(id));
+  if(!p)return;
+  document.getElementById('mImg').src=p.img||'';
+  document.getElementById('mti').textContent=p.titulo;
+  document.getElementById('mde').textContent=p.desc;
+  document.getElementById('mv1').textContent=p.local||'—';
+  document.getElementById('mv2').textContent=p.ano||'—';
+  document.getElementById('mv4').textContent=catLabel[p.categoria]||p.categoria||'—';
+  md.classList.add('o');document.body.style.overflow='hidden';
+}
+function closeM(){md.classList.remove('o');document.body.style.overflow='';}
+document.getElementById('cmd').addEventListener('click',closeM);
+md.addEventListener('click',e=>{if(e.target===md)closeM();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&md.classList.contains('o'))closeM();});
+
+// INIT
+carregarDados();
+
+})();
+</script>
+</body>
+</html>

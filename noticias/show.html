@@ -1,1 +1,549 @@
-<!doctype html><html lang="pt"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Galeria e Publicações — Só Cadente</title><meta name="description" content="Dicas de saúde oral, novidades e publicações da Só Cadente."><meta property="og:title" content="Só Cadente — Galeria e Publicações"><meta property="og:description" content="Dicas e novidades para cuidar do seu sorriso."><link rel="icon" href="../favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../assets/css/estilos.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="../assets/js/supabase-config.js"></script></head><body><header class="site-header"><nav class="nav"><a class="brand" href="../index.html"><img src="../assets/imagens/logo.png" alt="Só Cadente"><span>Só Cadente<small>Clínica Dentária</small></span></a><a class="btn" href="https://wa.me/244935976620">Marcar consulta</a></nav></header><main class="section"><div class="container"><span class="eyebrow">Dicas e novidades</span><h1 class="section-title">Galeria e Publicações</h1><p class="lead">Informações sobre saúde oral, a clínica, promoções e momentos da Só Cadente.</p><div class="posts" id="news"><article class="post"><span class="eyebrow">Saúde oral</span><h3>Uma rotina para sorrir melhor</h3><p>Faça a sua avaliação regularmente e tire dúvidas com a nossa equipa.</p></article><article class="post"><span class="eyebrow">Só Cadente</span><h3>Atendimento humanizado</h3><p>Estamos na Baixa, Rua da Polícia, Luanda.</p></article></div></div></main><footer class="footer"><div class="container">Só Cadente — Cuidando do seu sorriso, transformando vidas!</div></footer><script>SocadenteDB.list('news').then(items=>{if(!items.length)return;document.querySelector('#news').innerHTML=items.map(n=>`<article class="post"><span class="eyebrow">${n.categoria||'Publicação'}</span><h3>${n.titulo}</h3><p>${n.resumo||n.descricao||''}</p></article>`).join('')}).catch(()=>{})</script></body></html>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../assets/js/supabase-config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notícias – Só Cadente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--preto:#082f49;--laranja:#0EA5E9;--laranja-lt:#7DD3FC;--azul:#00ADF1;--azul-md:#0089C2;--osso:#F7F5F1;--branco:#FFFFFF;--pedra:#6B6B68;--pedra-lt:#A7A5A0;--v:var(--laranja);--vm:var(--azul-md);--vl:var(--azul);--o:var(--laranja);--ol:var(--laranja-lt);--c:var(--preto);--cm:var(--preto);--cr:var(--osso);--b:var(--branco);--ease:cubic-bezier(.16,1,.3,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;color:var(--c);background:var(--b);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--v);border-radius:4px}
+
+/* HEADER */
+header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(243,130,31,.12)}
+.hw{max-width:1320px;margin:0 auto;padding:.9rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+@media(min-width:768px){.hw{padding:.95rem 2.5rem}}
+.lw{display:flex;align-items:center;gap:.6rem}
+.lm{width:34px;height:34px;border-radius:7px;background:var(--v);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.lm img{width:34px;height:34px;object-fit:cover}
+.lm-txt{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.06em}
+.ln{display:block;font-family:'Bebas Neue',sans-serif;color:#fff;font-size:1.1rem;letter-spacing:.15em;line-height:1}
+.lt{display:block;color:rgba(255,255,255,.38);font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;margin-top:4px}
+.hbtn{display:inline-flex;align-items:center;gap:.45rem;background:var(--v);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.55rem 1.25rem;border-radius:6px;transition:background .3s}
+.hbtn:hover{background:var(--vl)}
+
+/* HERO */
+.hero{background:var(--cm);padding:4rem 0 3rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=55') center/cover;opacity:.1;pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(28,28,26,.6),rgba(28,28,26,.98));pointer-events:none}
+.hero-c{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:768px){.hero-c{padding:0 2.5rem}}
+.bc{display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:rgba(255,255,255,.42);margin-bottom:1.5rem;flex-wrap:wrap}
+.bc a{color:rgba(255,255,255,.42);transition:color .3s}.bc a:hover{color:#fff}
+.bc .sep{color:rgba(255,255,255,.18)}
+.ey{display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem}
+.ey .r{height:1px;width:26px;background:var(--o);flex-shrink:0}
+.ey span{font-size:.64rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--o)}
+.hero-t{font-family:'Archivo Black',sans-serif;font-weight:900;font-size:clamp(2.4rem,5.5vw,4.8rem);color:#fff;line-height:.95;margin-top:.5rem}
+.hero-sub{color:rgba(255,255,255,.5);font-size:.93rem;line-height:1.72;max-width:500px;margin-top:1rem}
+
+/* TABS */
+.tabs-bar{background:var(--cr);border-bottom:2px solid #E8E4DB;position:sticky;top:55px;z-index:90}
+.tabs-inner{max-width:1320px;margin:0 auto;padding:0 1.5rem;display:flex;overflow-x:auto;scrollbar-width:none}
+@media(min-width:768px){.tabs-inner{padding:0 2.5rem}}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tab{padding:1rem 1.4rem;font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#999;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:color .3s,border-color .3s;background:none}
+.tab.a{color:var(--v);border-color:var(--v)}
+
+/* SEARCH + FILTER BAR (notícias) */
+.filter-bar{background:var(--b);border-bottom:1px solid #E8E4DB;padding:1rem 0}
+.filter-bar-inner{max-width:1320px;margin:0 auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:.85rem}
+@media(min-width:700px){.filter-bar-inner{flex-direction:row;align-items:center;justify-content:space-between;padding:0 2.5rem}}
+.search-wrap{position:relative;flex:1;max-width:380px}
+.search-wrap i{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#aaa;font-size:.78rem;pointer-events:none}
+#searchInput{width:100%;background:#fff;border:1px solid #E8E4DB;border-radius:8px;padding:.6rem .9rem .6rem 2.3rem;font-family:'Outfit',sans-serif;font-size:.85rem;color:var(--c);outline:none;transition:border-color .3s,box-shadow .3s}
+#searchInput:focus{border-color:var(--v);box-shadow:0 0 0 3px rgba(243,130,31,.08)}
+.cats{display:flex;flex-wrap:wrap;gap:.38rem}
+.catb{border:1px solid #E8E4DB;color:#888;font-size:.67rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.36rem .82rem;border-radius:100px;transition:all .3s;background:#fff}
+.catb:hover{border-color:var(--v);color:var(--v)}
+.catb.a{background:var(--v);border-color:var(--v);color:#fff;font-weight:600}
+
+/* MAIN */
+.main{max-width:1320px;margin:0 auto;padding:3.5rem 1.5rem}
+@media(min-width:768px){.main{padding:4.5rem 2.5rem}}
+.hid{display:none!important}
+
+/* NEWS GRID */
+.ng{display:grid;gap:1.4rem}
+@media(min-width:640px){.ng{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.ng{grid-template-columns:repeat(3,1fr)}}
+
+/* NEWS CARD */
+.ncard{background:#fff;border:1px solid #EAE6DE;border-radius:16px;overflow:hidden;transition:transform .42s var(--ease),box-shadow .42s;display:flex;flex-direction:column}
+.ncard:hover{transform:translateY(-5px);box-shadow:0 22px 55px rgba(0,0,0,.1)}
+.nimg{position:relative;height:230px;overflow:hidden;flex-shrink:0}
+.nimg img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.ncard:hover .nimg img{transform:scale(1.05)}
+.ncat-badge{position:absolute;bottom:.8rem;left:.8rem;background:var(--v);color:#fff;font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.27rem .7rem;border-radius:100px}
+.ncard-body{padding:1.5rem 1.6rem 1.8rem;display:flex;flex-direction:column;flex:1}
+.ndate{font-size:.68rem;color:#bbb;margin-bottom:.55rem;letter-spacing:.07em}
+.ntit{font-family:'Archivo Black',sans-serif;font-size:clamp(1.05rem,1.8vw,1.3rem);font-weight:700;color:var(--c);line-height:1.3}
+.nresume{font-size:.85rem;color:#777;line-height:1.72;margin-top:.65rem;flex:1}
+.nlink{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;font-weight:600;color:var(--v);margin-top:1.2rem;transition:gap .3s;background:none;border:none;padding:0;text-align:left}
+.nlink:hover{gap:.72rem}
+.ncard.featured{grid-column:1/-1}
+@media(min-width:640px){
+  .ncard.featured{display:grid;grid-template-columns:1fr 1fr}
+  .ncard.featured .nimg{height:auto;min-height:280px}
+  .ncard.featured .ntit{font-size:clamp(1.3rem,2.5vw,1.8rem)}
+}
+.no-results{text-align:center;padding:5rem 2rem;color:#ccc;grid-column:1/-1}
+.no-results i{font-size:3rem;display:block;margin-bottom:1rem;color:#e8e4db}
+.no-results p{font-size:.9rem;line-height:1.65;color:#bbb}
+
+/* ARTICLE DETAIL */
+#articleView{display:none;max-width:780px;margin:0 auto;padding:4rem 1.5rem}
+@media(min-width:768px){#articleView{padding:4.5rem 2.5rem}}
+#articleView.show{display:block}
+.art-back{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--v);font-weight:600;margin-bottom:2rem;transition:gap .3s}
+.art-back:hover{gap:.8rem}
+.art-cat{display:inline-flex;align-items:center;background:rgba(243,130,31,.08);color:var(--v);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;margin-bottom:.9rem}
+.art-title{font-family:'Archivo Black',sans-serif;font-weight:900;font-size:clamp(1.8rem,4vw,3rem);line-height:1.15;color:var(--c)}
+.art-meta{display:flex;align-items:center;gap:1rem;margin-top:1rem;font-size:.8rem;color:#bbb;flex-wrap:wrap}
+.art-meta i{font-size:.72rem;color:var(--o)}
+.art-img{width:100%;height:380px;object-fit:cover;border-radius:16px;margin:2rem 0;box-shadow:0 20px 60px rgba(0,0,0,.12)}
+.art-body{font-size:.98rem;line-height:1.9;color:#444;white-space:pre-wrap}
+.art-tags{display:flex;gap:.5rem;margin-top:2rem;flex-wrap:wrap}
+.art-tag{font-size:.7rem;color:#888;background:var(--cr);border:1px solid #E8E4DB;padding:.28rem .8rem;border-radius:100px}
+.art-share{margin-top:3rem;padding-top:2rem;border-top:1px solid #EAE6DE;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.art-share span{font-size:.8rem;color:#aaa;font-weight:600}
+.art-share a{width:36px;height:36px;border-radius:8px;background:var(--cr);border:1px solid #E8E4DB;display:flex;align-items:center;justify-content:center;color:#666;font-size:.82rem;transition:all .3s}
+.art-share a:hover{background:var(--v);color:#fff;border-color:var(--v)}
+.art-nav{margin-top:3rem;padding-top:2rem;border-top:1px solid #EAE6DE;display:grid;gap:1rem}
+@media(min-width:560px){.art-nav{grid-template-columns:1fr 1fr}}
+.art-nav-btn{background:var(--cr);border:1px solid #E8E4DB;border-radius:10px;padding:1.1rem 1.3rem;transition:all .3s;cursor:pointer}
+.art-nav-btn:hover{background:var(--v);border-color:var(--v)}
+.art-nav-btn:hover .anl,.art-nav-btn:hover .ant{color:#fff}
+.anl{font-size:.64rem;color:#bbb;text-transform:uppercase;letter-spacing:.14em;display:flex;align-items:center;gap:.35rem;margin-bottom:.35rem}
+.ant{font-size:.88rem;font-weight:600;color:var(--c);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ADS GRID */
+.ag{display:grid;gap:1.2rem}
+@media(min-width:540px){.ag{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.ag{grid-template-columns:repeat(3,1fr)}}
+.ac{background:#fff;border:1px solid #EAE6DE;border-radius:14px;overflow:hidden;transition:transform .42s var(--ease),box-shadow .42s}
+.ac:hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,.1)}
+.ai{height:190px;overflow:hidden;position:relative}
+.ai img{width:100%;height:100%;object-fit:cover;transition:transform .65s var(--ease)}
+.ac:hover .ai img{transform:scale(1.06)}
+.atag{position:absolute;top:.75rem;left:.75rem;background:var(--o);color:#fff;font-size:.57rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.26rem .7rem;border-radius:100px;z-index:1}
+.abody{padding:1.2rem 1.3rem 1.4rem}
+.atit{font-weight:700;font-size:.95rem;color:var(--c);line-height:1.35}
+.adesc{font-size:.82rem;color:#666;line-height:1.68;margin-top:.5rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.afoot{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:1rem;border-top:1px solid #F0EDE6}
+.aprice{font-family:'Bebas Neue',sans-serif;color:var(--v);font-size:1.15rem;letter-spacing:.04em}
+.acta{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:600;color:var(--v);transition:gap .3s}
+.acta:hover{gap:.7rem}
+.empty{text-align:center;padding:4.5rem 2rem;color:#ccc}
+.empty i{font-size:2.8rem;display:block;margin-bottom:1rem;color:#e8e4db}
+.empty p{font-size:.88rem;line-height:1.65;color:#aaa}
+
+/* AD MODAL */
+#adModal{position:fixed;inset:0;background:rgba(0,0,0,.87);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:300;padding:1.2rem}
+#adModal.o{display:flex}
+#adMContent{background:var(--b);width:100%;max-width:880px;border-radius:20px;overflow:hidden;transform:scale(.94) translateY(22px);opacity:0;transition:transform .42s var(--ease),opacity .42s;max-height:90vh;overflow-y:auto}
+#adModal.o #adMContent{transform:scale(1) translateY(0);opacity:1}
+.miw{position:relative;height:250px}
+@media(min-width:700px){.miw{height:340px}}
+.miw img{width:100%;height:100%;object-fit:cover;display:block}
+.miw::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,16,.72),transparent 50%)}
+#adMclose{position:absolute;top:.9rem;right:.9rem;z-index:1;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.32);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:background .3s}
+#adMclose:hover{background:rgba(255,255,255,.14)}
+.mtw{position:absolute;bottom:1.4rem;left:2rem;z-index:1}
+#adMTitle{font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#fff}
+.mbd{padding:1.8rem}
+@media(min-width:700px){.mbd{display:grid;grid-template-columns:3fr 2fr;gap:2rem;padding:2.4rem}}
+.mdl{font-size:.64rem;color:#aaa;text-transform:uppercase;letter-spacing:.16em;margin-bottom:.72rem}
+#adMDesc{color:#555;line-height:1.82;font-size:.9rem}
+.mss{background:var(--cr);border-radius:12px;padding:1.4rem}
+.msht{font-size:.64rem;color:#aaa;text-transform:uppercase;letter-spacing:.16em;margin-bottom:.95rem}
+.msi{display:flex;justify-content:space-between;align-items:center;padding:.48rem 0;border-bottom:1px solid #E8E4DB}
+.msi:last-child{border-bottom:none}
+.msk{font-size:.8rem;color:#999}
+.msv{font-size:.82rem;font-weight:600;color:var(--c)}
+.msv.p{color:var(--o);font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.04em}
+.mcta{display:inline-flex;align-items:center;gap:.5rem;background:var(--v);color:#fff;font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.82rem 1.7rem;border-radius:7px;margin-top:1.6rem;transition:background .3s,transform .25s}
+.mcta:hover{background:var(--vl);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:#090909;color:#555;padding:2rem 0;margin-top:4rem}
+.fw{max-width:1320px;margin:0 auto;padding:0 1.5rem;display:flex;flex-direction:column;gap:1rem;align-items:center;text-align:center}
+@media(min-width:768px){.fw{flex-direction:row;justify-content:space-between;text-align:left;padding:0 2.5rem}}
+footer p{font-size:.76rem}
+footer .back{font-size:.76rem;color:#555;transition:color .3s;display:inline-flex;align-items:center;gap:.4rem}
+footer .back:hover{color:#fff}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hw">
+    <a href="../index.html" class="lw">
+      <div class="lm">
+        <img src="../assets/imagens/logo.png" alt="Logótipo Só Cadente" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="lm-txt" style="display:none">Só Cadente</span>
+      </div>
+      <div><span class="ln">Só Cadente</span><span class="lt">Clínica Dentária · Luanda</span></div>
+    </a>
+    <a href="../index.html#contacto" class="hbtn"><i class="fa-solid fa-paper-plane" style="font-size:.64rem"></i> Solicitar Proposta</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero" id="heroSection">
+  <div class="hero-c">
+    <nav class="bc">
+      <a href="../index.html"><i class="fa-solid fa-house" style="font-size:.7rem"></i> Início</a>
+      <span class="sep">/</span>
+      <span style="color:rgba(255,255,255,.65)" id="heroLabel">Notícias</span>
+    </nav>
+    <div class="ey"><div class="r"></div><span>Atualizações</span></div>
+    <h1 class="hero-t">Notícias &<br>Informações</h1>
+    <p class="hero-sub">Este espaço será actualizado com notícias e informações institucionais verificadas da Só Cadente.</p>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar" id="tabsBar">
+  <div class="tabs-inner">
+    <button class="tab a" data-tab="noticias"><i class="fa-solid fa-newspaper" style="margin-right:.4rem;font-size:.75rem"></i>Notícias</button>
+    <button class="tab" data-tab="publicidades"><i class="fa-solid fa-bullhorn" style="margin-right:.4rem;font-size:.75rem"></i>Informações</button>
+  </div>
+</div>
+
+<!-- ── TAB: NOTÍCIAS ── -->
+<div id="tab-noticias">
+  <!-- SEARCH + FILTER BAR -->
+  <div class="filter-bar" id="filterBar">
+    <div class="filter-bar-inner">
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" id="searchInput" placeholder="Pesquisar notícias...">
+      </div>
+      <div class="cats">
+        <button class="catb a" data-cat="all">Todas</button>
+        <button class="catb" data-cat="Infraestrutura">Infraestrutura</button>
+        <button class="catb" data-cat="Edificação">Edificação</button>
+        <button class="catb" data-cat="Sustentabilidade">Sustentabilidade</button>
+        <button class="catb" data-cat="Institucional">Institucional</button>
+        <button class="catb" data-cat="comercio">Comércio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWS LIST -->
+  <div class="main" id="newsSection">
+    <div class="ng" id="newsGrid"></div>
+  </div>
+
+  <!-- ARTICLE DETAIL -->
+  <div id="articleView">
+    <button class="art-back" id="artBack"><i class="fa-solid fa-arrow-left" style="font-size:.72rem"></i> Voltar às Notícias</button>
+    <span class="art-cat" id="artCat"></span>
+    <h1 class="art-title" id="artTitle"></h1>
+    <div class="art-meta">
+      <span><i class="fa-regular fa-calendar"></i> <span id="artDate"></span></span>
+      <span><i class="fa-solid fa-tag"></i> <span id="artCat2"></span></span>
+    </div>
+    <img id="artImg" class="art-img" alt="">
+    <div class="art-body" id="artBody"></div>
+    <div class="art-tags" id="artTags"></div>
+    <div class="art-share">
+      <span>Partilhar:</span>
+      <a href="#" target="_blank" rel="noopener" title="LinkedIn" id="shareLinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="#" target="_blank" rel="noopener" title="Facebook" id="shareFacebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#" target="_blank" rel="noopener" title="Twitter/X" id="shareTwitter"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#" title="Copiar link" id="copyLink"><i class="fa-solid fa-link"></i></a>
+    </div>
+    <div class="art-nav" id="artNav"></div>
+  </div>
+</div>
+
+<!-- ── TAB: PUBLICIDADES ── -->
+<div id="tab-publicidades" class="hid">
+  <div class="main">
+    <div id="adsGrid" class="ag"></div>
+  </div>
+</div>
+
+<!-- AD MODAL -->
+<div id="adModal" role="dialog" aria-modal="true">
+  <div id="adMContent">
+    <div class="miw">
+      <img id="adMImg" alt="">
+      <button id="adMclose" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <div class="mtw"><h2 id="adMTitle"></h2></div>
+    </div>
+    <div class="mbd">
+      <div>
+        <p class="mdl">Descrição da Publicidade</p>
+        <p id="adMDesc"></p>
+        <a href="../index.html#contacto" class="mcta"><i class="fa-solid fa-paper-plane" style="font-size:.65rem"></i> Contactar</a>
+      </div>
+      <div class="mss">
+        <p class="msht">Detalhes</p>
+        <div class="msi"><span class="msk">Categoria</span><span id="adMCat" class="msv"></span></div>
+        <div class="msi"><span class="msk">Preço</span><span id="adMPrice" class="msv p"></span></div>
+        <div class="msi"><span class="msk">Contacto</span><span id="adMContact" class="msv"></span></div>
+        <div class="msi"><span class="msk">Data</span><span id="adMDate" class="msv"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fw">
+    <p>© 2026 Só Cadente. Todos os direitos reservados.</p>
+    <a href="../index.html" class="back"><i class="fa-solid fa-arrow-left" style="font-size:.7rem"></i> Voltar ao Início</a>
+  </div>
+</footer>
+
+<script>
+/* =====================================================
+   SÓ CADENTE, LDA – noticias/show.html
+   Dados dinâmicos via Supabase (tabelas: news, ads)
+   ===================================================== */
+(()=>{
+'use strict';
+
+const DEF_NEWS=[
+  {id:'n1',titulo:'Bem-vindo ao novo site da Só Cadente',resumo:'Este espaço receberá informações institucionais e novidades verificadas da empresa.',content:'Bem-vindo ao site da Só Cadente. As notícias serão adicionadas à medida que exista informação institucional confirmada.',categoria:'Institucional',data:'',img:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=70'},
+];
+
+const DEF_ADS=[];
+
+const DEF_IMG_FALLBACKS=[
+  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=70',
+  'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=70',
+  'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=70',
+];
+
+// ── CACHE EM MEMÓRIA (preenchida a partir do Supabase) ──
+let newsCache=DEF_NEWS, adsCache=DEF_ADS;
+const lN=()=>newsCache;
+const lA=()=>adsCache;
+const lAI=()=>{ const m={}; adsCache.forEach(a=>{ if(a.img) m[a.id]=a.img; }); return m; };
+const fD=s=>{try{return new Date(s).toLocaleDateString('pt-PT',{day:'2-digit',month:'long',year:'numeric'});}catch{return s||'';}};
+
+async function carregarDados(){
+  try{
+    const [n,a]=await Promise.all([SocadenteDB.list('news'),SocadenteDB.list('ads')]);
+    if(n && n.length) newsCache=n;
+    if(a) adsCache=a.map(x=>({...x,descricao:x.descricao||x.desc}));
+  }catch(e){ console.error('Falha ao carregar dados do Supabase, a usar dados padrão.', e); }
+  renderNews();
+  renderAds();
+}
+
+// ── REVEAL ──────────────────────────────────────────
+const rObs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');rObs.unobserve(e.target);}
+}),{threshold:.08});
+const observeNew=()=>document.querySelectorAll('.rv:not(.in)').forEach(el=>rObs.observe(el));
+
+// ── TABS ─────────────────────────────────────────────
+let activeTab='noticias';
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('a'));
+  t.classList.add('a');
+  activeTab=t.dataset.tab;
+
+  const isNot=activeTab==='noticias';
+  document.getElementById('tab-noticias').classList.toggle('hid',!isNot);
+  document.getElementById('tab-publicidades').classList.toggle('hid',isNot);
+  document.getElementById('filterBar')?.classList.toggle('hid',!isNot);
+
+  // Reset article view when switching tabs
+  if(!isNot){
+    closeArticle();
+    renderAds();
+  }
+  observeNew();
+}));
+if(location.hash==='#publicidades') document.querySelector('[data-tab="publicidades"]')?.click();
+
+// ── NOTÍCIAS ──────────────────────────────────────────
+let currentCat='all', currentSearch='', currentArticleId=null;
+const hid=location.hash.slice(1);
+if(hid && lN().some(n=>String(n.id)===hid)) openArticle(hid);
+
+function getFiltered(){
+  return lN().filter(n=>{
+    const matchCat=currentCat==='all'||n.categoria===currentCat;
+    const matchSearch=!currentSearch||n.titulo.toLowerCase().includes(currentSearch)||n.resumo.toLowerCase().includes(currentSearch);
+    return matchCat&&matchSearch;
+  });
+}
+
+function renderNews(){
+  const all=getFiltered();
+  const g=document.getElementById('newsGrid');
+  if(!all.length){
+    g.innerHTML=`<div class="no-results rv"><i class="fa-solid fa-newspaper"></i><p>Nenhuma notícia encontrada.<br>Tente ajustar os filtros ou a pesquisa.</p></div>`;
+    observeNew();return;
+  }
+  g.innerHTML=all.map((n,i)=>{
+    const img=n.img||DEF_IMG_FALLBACKS[i%3];
+    const isFeat=i===0;
+    return `<article class="ncard rv${isFeat?' featured':''}" style="transition-delay:${(i%3)*.08}s">
+      <div class="nimg">
+        <img src="${img}" alt="${n.titulo}" loading="lazy" onerror="this.src='${DEF_IMG_FALLBACKS[i%3]}'">
+        <span class="ncat-badge">${n.categoria}</span>
+      </div>
+      <div class="ncard-body">
+        <p class="ndate"><i class="fa-regular fa-calendar" style="margin-right:.3rem;color:var(--o);font-size:.68rem"></i>${fD(n.data)}</p>
+        <h2 class="ntit">${n.titulo}</h2>
+        <p class="nresume">${n.resumo}</p>
+        <button class="nlink" data-read="${n.id}">Ler notícia completa <i class="fa-solid fa-arrow-right" style="font-size:.62rem"></i></button>
+      </div>
+    </article>`;
+  }).join('');
+  g.querySelectorAll('[data-read]').forEach(b=>b.addEventListener('click',()=>openArticle(b.dataset.read)));
+  observeNew();
+}
+
+function openArticle(id){
+  const all=lN();
+  const n=all.find(x=>x.id===id||String(x.id)===String(id));
+  if(!n)return;
+  currentArticleId=id;
+  history.replaceState(null, '', '#'+id);
+  const shareUrl=location.origin+location.pathname+'#'+id;
+  document.getElementById('shareLinkedIn').href='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(shareUrl);
+  document.getElementById('shareFacebook').href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(shareUrl);
+  document.getElementById('shareTwitter').href='https://twitter.com/intent/tweet?url='+encodeURIComponent(shareUrl)+'&text='+encodeURIComponent(n.titulo);
+  const img=n.img||DEF_IMG_FALLBACKS[0];
+
+  document.getElementById('artCat').textContent=n.categoria;
+  document.getElementById('artCat2').textContent=n.categoria;
+  document.getElementById('artTitle').textContent=n.titulo;
+  document.getElementById('artDate').textContent=fD(n.data);
+  document.getElementById('artImg').src=img;
+  document.getElementById('artImg').alt=n.titulo;
+  document.getElementById('artBody').textContent=n.content||n.resumo;
+  document.getElementById('artTags').innerHTML=`<span class="art-tag">${n.categoria}</span><span class="art-tag">Construção</span><span class="art-tag">Só Cadente</span>`;
+
+  // Prev / Next
+  const idx=all.findIndex(x=>String(x.id)===String(id));
+  let navHtml='';
+  if(idx>0){const prev=all[idx-1];navHtml+=`<button class="art-nav-btn" style="text-align:left" data-nav="${prev.id}"><div class="anl"><i class="fa-solid fa-arrow-left" style="font-size:.65rem"></i> Anterior</div><div class="ant">${prev.titulo}</div></button>`;}else navHtml+='<div></div>';
+  if(idx<all.length-1){const next=all[idx+1];navHtml+=`<button class="art-nav-btn" style="text-align:right" data-nav="${next.id}"><div class="anl" style="justify-content:flex-end">Próxima <i class="fa-solid fa-arrow-right" style="font-size:.65rem"></i></div><div class="ant">${next.titulo}</div></button>`;}
+  document.getElementById('artNav').innerHTML=navHtml;
+  document.getElementById('artNav').querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click',()=>openArticle(b.dataset.nav)));
+
+  document.getElementById('newsSection').classList.add('hid');
+  document.getElementById('filterBar').classList.add('hid');
+  document.getElementById('heroSection').classList.add('hid');
+  document.getElementById('tabsBar').classList.add('hid');
+  document.getElementById('articleView').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function closeArticle(){
+  document.getElementById('articleView').classList.remove('show');
+  document.getElementById('newsSection').classList.remove('hid');
+  document.getElementById('filterBar').classList.remove('hid');
+  document.getElementById('heroSection').classList.remove('hid');
+  document.getElementById('tabsBar').classList.remove('hid');
+  currentArticleId=null;
+  history.replaceState(null, '', location.pathname);
+}
+
+document.getElementById('artBack').addEventListener('click',()=>{
+  closeArticle();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+document.getElementById('copyLink').addEventListener('click',e=>{
+  e.preventDefault();
+  const shareUrl=location.origin+location.pathname+'#'+currentArticleId;
+  navigator.clipboard?.writeText(shareUrl);
+  const copyLink=e.currentTarget, icon=copyLink.querySelector('i');
+  copyLink.title='Copiado!';
+  icon.className='fa-solid fa-check';
+  setTimeout(()=>{
+    copyLink.title='Copiar link';
+    icon.className='fa-solid fa-link';
+  },1500);
+});
+
+// Search + filter
+let searchTimer;
+document.getElementById('searchInput').addEventListener('input',e=>{
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(()=>{currentSearch=e.target.value.trim().toLowerCase();renderNews();},280);
+});
+document.querySelectorAll('.catb').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.catb').forEach(x=>x.classList.remove('a'));
+  b.classList.add('a');
+  currentCat=b.dataset.cat;renderNews();
+}));
+
+// ── PUBLICIDADES ──────────────────────────────────────
+function renderAds(){
+  const ads=lA(),imgs=lAI(),g=document.getElementById('adsGrid');
+  if(!ads.length){
+    g.innerHTML='<div class="empty rv"><i class="fa-solid fa-bullhorn"></i><p>Nenhuma publicidade disponível de momento.</p></div>';
+    observeNew();return;
+  }
+  g.innerHTML=ads.map((ad,i)=>`
+    <div class="ac rv" style="transition-delay:${(i%3)*.09}s">
+      <div class="ai">
+        <img src="${imgs[ad.id]||DEF_IMG_FALLBACKS[i%3]}" alt="${ad.titulo}" loading="lazy" onerror="this.src='${DEF_IMG_FALLBACKS[i%3]}'">
+        <span class="atag">${ad.categoria}</span>
+      </div>
+      <div class="abody">
+        <h3 class="atit">${ad.titulo}</h3>
+        <p class="adesc">${ad.descricao}</p>
+        <div class="afoot">
+          <span class="aprice">${ad.preco||'Sob consulta'}</span>
+          <button class="acta" data-open="${ad.id}">Saber mais <i class="fa-solid fa-arrow-right" style="font-size:.6rem"></i></button>
+        </div>
+      </div>
+    </div>`).join('');
+  g.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openAdModal(b.dataset.open)));
+  observeNew();
+}
+
+function openAdModal(id){
+  const ads=lA(),imgs=lAI();
+  const ad=ads.find(x=>String(x.id)===String(id));
+  if(!ad)return;
+  const i=ads.findIndex(x=>String(x.id)===String(id));
+  document.getElementById('adMImg').src=imgs[ad.id]||DEF_IMG_FALLBACKS[i%3];
+  document.getElementById('adMTitle').textContent=ad.titulo;
+  document.getElementById('adMDesc').textContent=ad.descricao;
+  document.getElementById('adMCat').textContent=ad.categoria;
+  document.getElementById('adMPrice').textContent=ad.preco||'Sob consulta';
+  document.getElementById('adMContact').textContent=ad.contacto||'—';
+  document.getElementById('adMDate').textContent=fD(ad.data);
+  document.getElementById('adModal').classList.add('o');
+  document.body.style.overflow='hidden';
+}
+
+document.getElementById('adMclose').addEventListener('click',()=>{document.getElementById('adModal').classList.remove('o');document.body.style.overflow='';});
+document.getElementById('adModal').addEventListener('click',e=>{if(e.target===document.getElementById('adModal')){document.getElementById('adModal').classList.remove('o');document.body.style.overflow='';}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('adModal').classList.remove('o');document.body.style.overflow='';}});
+
+// ── INIT ─────────────────────────────────────────────
+carregarDados();
+
+})();
+</script>
+</body>
+</html>
