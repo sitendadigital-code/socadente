@@ -1,11 +1,12 @@
-# Notas para publicação
+# Notas para publicação — Só Cadente
 
-Os dados de contacto e acesso inicial da **Eufratungos, Lda** foram preenchidos e validados para publicação.
+- Telefones: `935 976 620` e `940 758 305`
+- WhatsApp: `https://wa.me/244935976620`
+- Morada: Rua da Polícia, Baixa, Luanda, Angola
+- Área de gestores: palavra-passe inicial `admin123`; altere-a antes da publicação.
+- Execute a migração `supabase/migrations/20260918_socadente_cases.sql` antes de gerir casos clínicos e pedidos de contacto.
 
-- Telefone: `926 541 666`
-- Email: `eufratungoscomercioservicos@gmail.com`
-- Morada: Rua D, Bairro Popular, nº 1, depois do Comando da Polícia Nacional, Uíge, Angola
-- Área de gestores: palavra-passe inicial configurada
-- Mapa: localização da empresa incorporada na página de contacto
+## Conteúdo a confirmar
 
-As áreas e tipos de obra apresentados no site são exemplos ilustrativos, não um portefólio de obras realizadas.
+- As faixas de preço são indicativas e devem ser confirmadas pela clínica.
+- Substitua as imagens ilustrativas dos casos pelos ficheiros autorizados de antes/depois, sem dados identificáveis de pacientes.

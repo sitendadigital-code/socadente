@@ -1,5 +1,5 @@
 /* ===========================================
-   Eufratungos – Configuração Supabase
+   Só Cadente – Configuração Supabase
    =========================================== */
 const SUPABASE_URL = 'https://nwhgfskwshvoujhaoevt.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_4kg0FN_r_C9umEzcRHxOHw__MIiaAsB';
@@ -7,7 +7,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_4kg0FN_r_C9umEzcRHxOHw__MIiaAsB';
 const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /* ── Helpers genéricos de dados (news, projects, ads) ── */
-const EufraDB = {
+const SocadenteDB = {
   async list(tabela, orderCol = 'created_at') {
     const { data, error } = await sbClient.from(tabela).select('*').order(orderCol, { ascending: false });
     if (error) { console.error(error); return []; }
@@ -40,7 +40,7 @@ const EufraDB = {
 };
 
 /* ── Auth helpers (login de gestores) ── */
-const EufraAuth = {
+const SocadenteAuth = {
   async signIn(email, password) {
     return sbClient.auth.signInWithPassword({ email, password });
   },
