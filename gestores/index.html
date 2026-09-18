@@ -1,6 +1,125 @@
-<!doctype html><html lang="pt"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gestores — Só Cadente Clínica Dentária</title><meta name="description" content="Área restrita de gestão da Só Cadente."><meta property="og:title" content="Só Cadente — Gestores"><link rel="icon" href="../favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../assets/css/estilos.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="../assets/js/supabase-config.js"></script></head><body><header class="site-header"><nav class="nav"><a class="brand" href="../index.html"><img src="../assets/imagens/logo.png" alt="Só Cadente"><span>Só Cadente<small>Painel de gestores</small></span></a></nav></header><main class="section"><div class="container"><section id="login" style="max-width:460px;margin:auto"><span class="eyebrow">Área restrita</span><h1 class="section-title">Entrar no painel</h1><p class="lead">Use a palavra-passe inicial configurada: <strong>admin123</strong>. Altere-a após o primeiro acesso.</p><form class="form" id="loginForm"><input id="password" type="password" required placeholder="Palavra-passe"><button class="btn">Entrar</button><small id="loginMsg"></small></form></section><section id="panel" class="hidden"><span class="eyebrow">Gestão clínica</span><h1 class="section-title">Trabalhos / Casos clínicos</h1><p class="lead">Nunca publique nome completo, diagnóstico ou qualquer dado sensível de pacientes.</p><form class="form" id="caseForm" style="max-width:780px;margin-top:2rem"><input type="hidden" id="caseId"><input id="titulo" required placeholder="Título / nome do caso (ex.: Paciente A — sorriso restaurado)"><textarea id="descricao" required placeholder="Descrição do tratamento"></textarea><select id="servico" required><option value="">Serviço / categoria</option><option>Limpeza Dentária</option><option>Clareamento Dental</option><option>Restaurações</option><option>Tratamento de Cáries</option><option>Extrações</option><option>Tratamento de Gengiva</option><option>Implantes Dentários</option><option>Próteses Dentárias</option><option>Aparelhos Ortodônticos</option><option>Endodontia (Canal)</option><option>Facetas de Porcelana</option><option>Odontopediatria</option><option>Reabilitação Oral</option><option>Dentes de Ouro</option><option>Lavagem Geral / Higiene Completa</option></select><input id="preco" type="number" min="0" step="1" placeholder="Preço em Kz/AOA (opcional: vazio = sob consulta)"><input id="data" type="date" required><fieldset style="border:1px solid #bae6fd;border-radius:12px;padding:1rem"><legend>Apresentação das imagens</legend><label><input type="radio" name="tipo" value="before_after" checked> Antes e Depois</label> <label><input type="radio" name="tipo" value="single"> Apenas uma foto</label><div id="beforeAfter" class="two-col" style="margin-top:1rem"><label>Imagem Antes<input id="imagemAntes" type="file" accept="image/*"></label><label>Imagem Depois<input id="imagemDepois" type="file" accept="image/*"></label></div><label id="singleImage" class="hidden" style="margin-top:1rem">Imagem única<input id="imagemUnica" type="file" accept="image/*"></label></fieldset><button class="btn">Guardar caso clínico</button><small id="caseMsg"></small></form><h2 class="section-title" style="margin-top:3rem;font-size:1.7rem">Casos publicados</h2><div class="work-grid" id="caseList"></div><hr style="margin:4rem 0;border:0;border-top:1px solid #bae6fd"><h2 class="section-title" style="font-size:1.7rem">Galeria e Publicações</h2><p class="lead">As publicações e promoções usam uma imagem, título, texto e categoria. Esta área mantém a gestão técnica existente no Supabase.</p><a class="btn" href="../noticias/show.html">Ver galeria pública</a></section></div></main><script>
-const initialPassword='admin123';const $=s=>document.querySelector(s);function mode(){const is=$('input[name=tipo]:checked').value==='before_after';$('#beforeAfter').classList.toggle('hidden',!is);$('#singleImage').classList.toggle('hidden',is)}document.querySelectorAll('input[name=tipo]').forEach(x=>x.onchange=mode);
-$('#loginForm').onsubmit=e=>{e.preventDefault();if($('#password').value===initialPassword){sessionStorage.setItem('socadente_manager','1');$('#login').classList.add('hidden');$('#panel').classList.remove('hidden');loadCases()}else $('#loginMsg').textContent='Palavra-passe inválida.'};if(sessionStorage.getItem('socadente_manager')){$('#login').classList.add('hidden');$('#panel').classList.remove('hidden');loadCases()}
-async function fileUrl(input){return input.files[0]?SocadenteDB.uploadImagem(input.files[0]):null}async function loadCases(){try{const items=await SocadenteDB.list('cases');$('#caseList').innerHTML=items.map(x=>`<article class="work-card"><div class="work-body"><h3>${x.titulo}</h3><p>${x.servico||''} · ${x.preco||'Sob consulta'}</p><button class="btn" onclick="removeCase('${x.id}')">Eliminar</button></div></article>`).join('')||'<p>Sem casos publicados.</p>'}catch{$('#caseList').innerHTML='<p>Configure a migração Supabase para gerir casos.</p>'}}
-async function removeCase(id){if(confirm('Eliminar este caso clínico?')){await SocadenteDB.remove('cases',id);loadCases()}}$('#caseForm').onsubmit=async e=>{e.preventDefault();const tipo=$('input[name=tipo]:checked').value;const row={titulo:$('#titulo').value,descricao:$('#descricao').value,servico:$('#servico').value,preco:$('#preco').value||null,data:$('#data').value,tipo_apresentacao:tipo};try{if(tipo==='before_after'){row.imagem_antes=await fileUrl($('#imagemAntes'));row.imagem_depois=await fileUrl($('#imagemDepois'))}else row.imagem_unica=await fileUrl($('#imagemUnica'));await SocadenteDB.insert('cases',row);$('#caseMsg').textContent='Caso clínico guardado.';e.target.reset();mode();loadCases()}catch(err){$('#caseMsg').textContent='Não foi possível guardar. Confirme a configuração do Supabase.';console.error(err)}};
-</script></body></html>
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gestores — Só Cadente Clínica Dentária</title>
+  <meta name="description" content="Área restrita de gestão da Só Cadente.">
+  <link rel="icon" href="../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/estilos.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../assets/js/supabase-config.js"></script>
+</head>
+<body>
+  <header class="site-header"><nav class="nav"><a class="brand" href="../index.html"><img src="../assets/imagens/logo.png" alt="Só Cadente"><span>Só Cadente</span></a></nav></header>
+  <main class="section"><div class="container">
+    <section id="login" style="max-width:460px;margin:auto">
+      <span class="eyebrow">Área Restrita</span>
+      <h1 class="section-title">Área Restrita</h1>
+      <form class="form" id="loginForm">
+        <input id="email" type="email" required autocomplete="email" placeholder="Email">
+        <input id="password" type="password" required autocomplete="current-password" placeholder="Palavra-passe">
+        <button class="btn">Entrar</button>
+        <a href="#recuperar" id="showRecovery">Esqueceu a palavra-passe?</a>
+        <a href="../index.html">Voltar ao site</a>
+        <small id="loginMsg" aria-live="polite"></small>
+      </form>
+    </section>
+
+    <section id="recovery" class="hidden" style="max-width:460px;margin:auto">
+      <span class="eyebrow">Área Restrita</span>
+      <h1 class="section-title">Recuperar palavra-passe</h1>
+      <form class="form" id="recoveryForm">
+        <input id="recoveryEmail" type="email" required autocomplete="email" placeholder="Email">
+        <button class="btn">Enviar ligação de recuperação</button>
+        <a href="#login" id="showLogin">Voltar ao login</a>
+        <a href="../index.html">Voltar ao site</a>
+        <small id="recoveryMsg" aria-live="polite"></small>
+      </form>
+    </section>
+
+    <section id="panel" class="hidden">
+      <span class="eyebrow">Gestão clínica</span>
+      <h1 class="section-title">Trabalhos / Casos clínicos</h1>
+      <p class="lead">Nunca publique nome completo, diagnóstico ou qualquer dado sensível de pacientes.</p>
+      <form class="form" id="projectForm" style="max-width:780px;margin-top:2rem">
+        <input id="titulo" required placeholder="Título / nome do caso (ex.: Paciente A — sorriso restaurado)">
+        <textarea id="descricao" required placeholder="Descrição do tratamento"></textarea>
+        <select id="categoria" required><option value="">Serviço / categoria</option><option>Limpeza Dentária</option><option>Clareamento Dental</option><option>Restaurações</option><option>Tratamento de Cáries</option><option>Extrações</option><option>Tratamento de Gengiva</option><option>Implantes Dentários</option><option>Próteses Dentárias</option><option>Aparelhos Ortodônticos</option><option>Endodontia (Canal)</option><option>Facetas de Porcelana</option><option>Odontopediatria</option><option>Reabilitação Oral</option><option>Dentes de Ouro</option><option>Lavagem Geral / Higiene Completa</option></select>
+        <label>Preço (Kz)<input id="preco" type="number" min="0" step="1" placeholder="Preço em Kz"></label>
+        <small>Deixa vazio para “Sob consulta”.</small>
+        <input id="data" type="date" required>
+        <fieldset style="border:1px solid #bae6fd;border-radius:12px;padding:1rem">
+          <legend>Apresentação das imagens</legend>
+          <label><input type="radio" name="tipoApresentacao" value="unica" checked> Foto única</label>
+          <label><input type="radio" name="tipoApresentacao" value="antes_depois"> Antes e Depois</label>
+          <label id="singleImage" style="margin-top:1rem">Imagem única<input id="imagemUnica" type="file" accept="image/*" required></label>
+          <div id="beforeAfter" class="two-col hidden" style="margin-top:1rem"><label>Imagem Antes<input id="imagemAntes" type="file" accept="image/*"></label><label>Imagem Depois<input id="imagemDepois" type="file" accept="image/*"></label></div>
+        </fieldset>
+        <button class="btn">Guardar caso clínico</button>
+        <small id="projectMsg" aria-live="polite"></small>
+      </form>
+      <h2 class="section-title" style="margin-top:3rem;font-size:1.7rem">Casos publicados</h2>
+      <div class="work-grid" id="projectList"></div>
+    </section>
+  </div></main>
+  <script>
+    const $ = selector => document.querySelector(selector);
+    const formatPrice = value => value === null || value === undefined || value === '' ? 'Sob consulta' : `${Number(value).toLocaleString('pt-PT')} Kz`;
+    const show = section => { $('#login').classList.toggle('hidden', section !== 'login'); $('#recovery').classList.toggle('hidden', section !== 'recovery'); };
+    const setPresentationMode = () => {
+      const isBeforeAfter = $('input[name=tipoApresentacao]:checked').value === 'antes_depois';
+      $('#beforeAfter').classList.toggle('hidden', !isBeforeAfter);
+      $('#singleImage').classList.toggle('hidden', isBeforeAfter);
+      $('#imagemUnica').required = !isBeforeAfter;
+      $('#imagemAntes').required = isBeforeAfter;
+      $('#imagemDepois').required = isBeforeAfter;
+    };
+    const showPanel = () => { $('#login').classList.add('hidden'); $('#recovery').classList.add('hidden'); $('#panel').classList.remove('hidden'); loadProjects(); };
+    const fileUrl = input => input.files[0] ? SocadenteDB.uploadImagem(input.files[0]) : null;
+
+    $('#showRecovery').addEventListener('click', event => { event.preventDefault(); show('recovery'); });
+    $('#showLogin').addEventListener('click', event => { event.preventDefault(); show('login'); });
+    document.querySelectorAll('input[name=tipoApresentacao]').forEach(input => input.addEventListener('change', setPresentationMode));
+    setPresentationMode();
+
+    $('#loginForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const { error } = await SocadenteAuth.signIn($('#email').value, $('#password').value);
+      if (error) { $('#loginMsg').textContent = 'Não foi possível entrar. Confirme o email e a palavra-passe.'; return; }
+      showPanel();
+    });
+    $('#recoveryForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const { error } = await SocadenteAuth.sendPasswordReset($('#recoveryEmail').value, `${window.location.origin}${window.location.pathname}`);
+      $('#recoveryMsg').textContent = error ? 'Não foi possível enviar a ligação de recuperação.' : 'Se o email estiver registado, receberá uma ligação de recuperação.';
+    });
+    SocadenteAuth.getSession().then(session => { if (session) showPanel(); });
+
+    async function loadProjects() {
+      try {
+        const projects = await SocadenteDB.list('projects');
+        $('#projectList').innerHTML = projects.map(project => `<article class="work-card"><div class="work-body"><h3>${project.titulo}</h3><p>${project.categoria || ''} · ${formatPrice(project.preco)}</p><button class="btn" data-remove-project="${project.id}">Eliminar</button></div></article>`).join('') || '<p>Sem casos publicados.</p>';
+        document.querySelectorAll('[data-remove-project]').forEach(button => button.addEventListener('click', async () => { if (confirm('Eliminar este caso clínico?')) { await SocadenteDB.remove('projects', button.dataset.removeProject); loadProjects(); } }));
+      } catch (error) { $('#projectList').innerHTML = '<p>Não foi possível carregar os casos publicados.</p>'; console.error(error); }
+    }
+    $('#projectForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const tipoApresentacao = $('input[name=tipoApresentacao]:checked').value;
+      const project = { titulo: $('#titulo').value, descricao: $('#descricao').value, categoria: $('#categoria').value, preco: $('#preco').value === '' ? null : Number($('#preco').value), tipo_apresentacao: tipoApresentacao, img: null, imagem_antes: null, imagem_depois: null, data: $('#data').value };
+      try {
+        if (tipoApresentacao === 'unica') project.img = await fileUrl($('#imagemUnica'));
+        else { project.imagem_antes = await fileUrl($('#imagemAntes')); project.imagem_depois = await fileUrl($('#imagemDepois')); }
+        await SocadenteDB.insert('projects', project);
+        $('#projectMsg').textContent = 'Caso clínico guardado.';
+        event.target.reset();
+        setPresentationMode();
+        loadProjects();
+      } catch (error) { $('#projectMsg').textContent = 'Não foi possível guardar o caso clínico.'; console.error(error); }
+    });
+  </script>
+</body>
+</html>

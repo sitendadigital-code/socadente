@@ -1,8 +1,8 @@
 /* ===========================================
    Só Cadente – Configuração Supabase
    =========================================== */
-const SUPABASE_URL = 'https://nwhgfskwshvoujhaoevt.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_4kg0FN_r_C9umEzcRHxOHw__MIiaAsB';
+const SUPABASE_URL = 'https://yozvdtuvgmxzllzjeltw.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_EgilHocQl7vEoNnMQQcBMw_UeVxQa1l';
 
 const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
