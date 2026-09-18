@@ -48,9 +48,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       $('#slide-atual').textContent = '0'; $('#slide-total').textContent = '0'; dots.innerHTML = ''; return;
     }
     const item = news[current];
-    track.innerHTML = `<article class="noticia-card"><img src="${item.img || item.imagem || 'assets/imagens/sobre-consulta.svg'}" alt="${item.titulo}" loading="lazy"><div class="noticia-conteudo"><span class="noticia-meta">${item.tipo || item.categoria || 'Só Cadente'}</span><h3>${item.titulo}</h3><p>${item.resumo || item.descricao || ''}</p></div></article>`;
+    const dateValue = item.data || item.created_at;
+    const date = dateValue ? new Date(dateValue).toLocaleDateString('pt-PT', { day: '2-digit', month: 'long', year: 'numeric' }) : '';
+    const isGallery = item.tipo === 'Galeria';
+    const link = isGallery ? 'noticias/show.html#galeria' : item.id ? `noticias/show.html#${item.id}` : 'noticias/show.html';
+    track.innerHTML = `<article class="noticia-card"><div class="n-img"><img src="${item.img || item.imagem || 'assets/imagens/sobre-consulta.svg'}" alt="${item.titulo}" loading="lazy"><span class="n-cat">${item.tipo || item.categoria || 'Só Cadente'}</span></div><div class="n-body">${date ? `<span class="n-date">${date}</span>` : ''}<h3 class="n-title">${item.titulo}</h3><p class="n-desc">${item.resumo || item.descricao || ''}</p><a class="n-link" href="${link}">Ler mais <i class="fa-solid fa-arrow-right"></i></a></div></article>`;
     $('#slide-atual').textContent = current + 1; $('#slide-total').textContent = news.length;
-    dots.innerHTML = news.map((_, index) => `<button class="carousel-dot ${index === current ? 'active' : ''}" aria-label="Item ${index + 1}"></button>`).join('');
+    dots.innerHTML = news.map((_, index) => `<button class="c-dot${index === current ? ' active' : ''}" aria-label="Item ${index + 1}"></button>`).join('');
     dots.querySelectorAll('button').forEach((button, index) => button.addEventListener('click', () => { current = index; renderNews(); }));
   };
   $('#noticias-prev')?.addEventListener('click', () => { if (!news.length) return; current = (current - 1 + news.length) % news.length; renderNews(); });
