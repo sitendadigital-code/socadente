@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="assets/js/supabase-config.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="duCCrsxhEgCZ9tWi_LAkmceaBdOKRR5FvMynPMQjC6Y" />
+<title>Eufratungos, Lda – Comércio, Serviços, Construção e Obras Públicas</title>
+<meta name="description" content="Eufratungos, Lda — Comércio Geral, Prestação de Serviços, Construção Civil e Obras Públicas em Angola.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--preto:#141414;--laranja:#F3821F;--laranja-lt:#FFA24D;--azul:#00ADF1;--azul-md:#0089C2;--osso:#F7F5F1;--branco:#FFFFFF;--pedra:#6B6B68;--pedra-lt:#A7A5A0;--ease:cubic-bezier(.16,1,.3,1);--ease2:cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Outfit',sans-serif;color:var(--preto);background:var(--branco);overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+
+/* ── SCROLL PROGRESS ── */
+#scroll-progress{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,var(--laranja),var(--laranja-lt));width:0%;transition:width .1s linear}
+
+/* ── HEADER ── */
+#cabecalho{position:fixed;top:0;width:100%;z-index:100;transition:background .5s,backdrop-filter .5s}
+#cabecalho .inner{max-width:1280px;margin:0 auto;padding:1.4rem 1.5rem;display:flex;justify-content:space-between;align-items:center;transition:padding .4s}
+@media(min-width:640px){#cabecalho .inner{padding:1.4rem 2.5rem}}
+#cabecalho.scrolled{background:rgba(17,17,16,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(243,130,31,.12)}
+#cabecalho.scrolled .inner{padding-top:.85rem;padding-bottom:.85rem}
+
+.logo-wrap{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.logo-mark{width:40px;height:40px;border-radius:8px;background:var(--laranja);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.logo-mark img{width:40px;height:40px;object-fit:cover}
+.logo-name{display:block;font-family:'Bebas Neue',sans-serif;color:#fff;font-size:1.15rem;letter-spacing:.15em;line-height:1}
+.logo-tagline{display:block;color:rgba(255,255,255,.4);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;margin-top:3px}
+
+nav.desktop{display:none;align-items:center;gap:2rem}
+@media(min-width:1024px){nav.desktop{display:flex}}
+.nav-link{color:rgba(255,255,255,.75);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;position:relative;transition:color .3s;white-space:nowrap}
+.nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--laranja);transition:width .35s var(--ease)}
+.nav-link:hover,.nav-link:focus{color:#fff}.nav-link:hover::after,.nav-link:focus::after{width:100%}
+
+.btn-proposta{display:none;align-items:center;gap:.5rem;border:1px solid rgba(243,130,31,.5);color:var(--laranja-lt);background:transparent;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.55rem 1.2rem;border-radius:4px;text-decoration:none;transition:background .3s,color .3s;white-space:nowrap}
+@media(min-width:1024px){.btn-proposta{display:inline-flex}}
+.btn-proposta:hover{background:var(--laranja);color:var(--preto);border-color:var(--laranja)}
+
+#hamburger{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;-webkit-tap-highlight-color:transparent}
+@media(min-width:1024px){#hamburger{display:none}}
+.ham-line{display:block;height:1.5px;background:#fff;transition:all .35s var(--ease)}
+.ham-line:nth-child(1){width:24px}.ham-line:nth-child(2){width:16px}.ham-line:nth-child(3){width:24px}
+#hamburger.open .ham-line:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:24px}
+#hamburger.open .ham-line:nth-child(2){opacity:0;transform:scaleX(0)}
+#hamburger.open .ham-line:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ── MOBILE MENU ── */
+#mobile-menu{position:fixed;inset:0;z-index:90;background:rgba(17,17,16,.97);backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;opacity:0;pointer-events:none;transition:opacity .4s var(--ease2)}
+#mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-nav-link{color:rgba(255,255,255,.65);text-decoration:none;font-family:'Archivo Black',sans-serif;font-size:clamp(1.8rem,6vw,2.8rem);font-weight:700;padding:.35rem 0;transition:color .3s}
+.mobile-nav-link:hover{color:var(--laranja-lt)}
+.mobile-cta{margin-top:2rem;border:1px solid rgba(243,130,31,.45);color:var(--laranja-lt);font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:.8rem 2rem;border-radius:4px;text-decoration:none;transition:background .3s,color .3s}
+.mobile-cta:hover{background:var(--laranja);color:var(--preto)}
+
+/* ── HERO ── */
+#inicio{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1920&q=80') center/cover;transform:scale(1.08);animation:heroZoom 18s ease-out forwards}
+@keyframes heroZoom{to{transform:scale(1)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,17,16,.94) 0%,rgba(17,17,16,.78) 48%,rgba(17,17,16,.48) 100%),linear-gradient(to top,rgba(17,17,16,.88) 0%,rgba(17,17,16,.18) 65%)}
+.hero-grain{position:absolute;inset:0;opacity:.04;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+.hero-inner{position:relative;width:100%;max-width:1280px;margin:0 auto;padding:7rem 1.5rem 3rem}
+@media(min-width:640px){.hero-inner{padding:7.5rem 2.5rem 3rem}}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.7rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--laranja-lt);opacity:0;animation:fadeUp .8s var(--ease) .4s forwards}
+.hero-eyebrow .dot{width:4px;height:4px;border-radius:50%;background:var(--laranja);flex-shrink:0}
+.hero-headline{font-family:'Archivo Black',sans-serif;font-weight:900;color:#fff;font-size:clamp(2.65rem,6.8vw,6.5rem);line-height:.95;letter-spacing:-.02em;margin-top:1rem}
+.hero-headline .line{display:block;overflow:hidden}
+.hero-headline .line span{display:block;opacity:0;animation:slideUp .9s var(--ease) forwards}
+.hero-headline .line:nth-child(1) span{animation-delay:.55s}
+.hero-headline .line:nth-child(2) span{animation-delay:.70s}
+.hero-headline .line:nth-child(3) span{animation-delay:.85s}
+.hero-headline .outline{color:var(--laranja-lt);-webkit-text-stroke:0}
+.hero-subtext{color:rgba(255,255,255,.55);font-size:clamp(.9rem,2vw,1.05rem);line-height:1.75;max-width:560px;margin-top:1.5rem;opacity:0;animation:fadeUp .9s var(--ease) 1s forwards}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:2rem;opacity:0;animation:fadeUp .9s var(--ease) 1.15s forwards}
+.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);margin-top:2rem;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden;opacity:0;animation:fadeUp .9s var(--ease) 1.3s forwards}
+@media(min-width:480px){.hero-stats{grid-template-columns:repeat(4,1fr)}}
+.stat-cell{padding:.8rem .7rem;text-align:center;background:rgba(17,17,16,.82);backdrop-filter:blur(12px);border-right:1px solid rgba(255,255,255,.08)}
+.stat-cell:last-child{border-right:none}
+@media(min-width:640px){.stat-cell{padding:1rem 1.2rem}}
+.stat-value{display:block;font-family:'Bebas Neue',sans-serif;color:var(--laranja-lt);font-size:1.5rem;letter-spacing:.03em;line-height:1}
+@media(min-width:640px){.stat-value{font-size:1.8rem}}
+.stat-label{display:block;color:rgba(255,255,255,.62);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;margin-top:.3rem}
+
+/* ── SECTION ATOMS ── */
+.section-eyebrow{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem}
+.section-eyebrow .rule{height:1px;width:28px;background:var(--laranja);flex-shrink:0}
+.section-eyebrow span{font-size:.68rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--laranja)}
+.section-title{font-family:'Archivo Black',sans-serif;font-weight:900;font-size:clamp(2rem,4vw,3.8rem);line-height:1.05;letter-spacing:-.01em}
+.section-header-center{text-align:center;max-width:640px;margin:0 auto 4rem}
+.section-header-center .section-eyebrow{justify-content:center}
+.section-header-center p{color:#666;line-height:1.75;margin-top:.9rem;font-size:.95rem}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.reveal.in-view{opacity:1;transform:translateY(0)}
+
+/* ── BUTTONS ── */
+.btn-primary{display:inline-flex;align-items:center;gap:.55rem;background:var(--laranja);color:#fff;font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.9rem 1.8rem;border-radius:6px;text-decoration:none;transition:background .3s,transform .3s;-webkit-tap-highlight-color:transparent}
+.btn-primary:hover{background:var(--azul);transform:translateY(-2px)}
+.btn-primary .arrow{transition:transform .3s var(--ease)}
+.btn-primary:hover .arrow{transform:translateX(4px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.55rem;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.9rem 1.8rem;border-radius:6px;text-decoration:none;transition:border-color .3s,color .3s,transform .3s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.65);color:#fff;transform:translateY(-2px)}
+
+/* ── SOBRE ── */
+#sobre{padding:6rem 0;background:var(--osso)}
+@media(min-width:768px){#sobre{padding:8rem 0}}
+#sobre .inner{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:640px){#sobre .inner{padding:0 2.5rem}}
+.grid-2{display:grid;gap:3.5rem;align-items:center}
+@media(min-width:1024px){.grid-2{grid-template-columns:1fr 1fr;gap:5rem}}
+.img-frame{position:relative}
+.img-frame-inner{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5}
+.img-frame-inner img{width:100%;height:100%;object-fit:cover}
+.img-frame-inner::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,16,.3),transparent 60%)}
+.img-badge{position:absolute;bottom:-1.2rem;right:-1.2rem;background:var(--laranja);color:#fff;border-radius:12px;padding:1.2rem 1.5rem;box-shadow:0 20px 60px rgba(243,130,31,.4);display:none}
+@media(min-width:640px){.img-badge{display:block}}
+.img-badge .num{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;line-height:1}
+.img-badge .lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:.2rem}
+.img-accent{position:absolute;top:-1.5rem;left:-1.5rem;width:48px;height:48px;border:2px solid rgba(243,130,31,.4);border-radius:6px;display:none}
+@media(min-width:640px){.img-accent{display:block}}
+.sobre-content .section-title{color:var(--preto)}
+.sobre-desc{color:#555;line-height:1.8;margin-top:1.4rem;font-size:.95rem}
+.values-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.8rem}
+.value-item{border-left:2px solid var(--laranja);padding-left:1rem}
+.value-item h4{font-size:.88rem;font-weight:600;color:var(--preto);margin-bottom:.3rem}
+.value-item p{font-size:.8rem;color:#666;line-height:1.6}
+.cert-list{display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;margin-top:1.8rem}
+.cert-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:#555}
+.cert-item i{color:var(--laranja);font-size:.72rem}
+
+/* ── SERVIÇOS ── */
+#servicos{padding:6rem 0;background:var(--branco)}
+@media(min-width:768px){#servicos{padding:8rem 0}}
+#servicos .inner{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:640px){#servicos .inner{padding:0 2.5rem}}
+.servicos-grid{display:grid;gap:1rem}
+@media(min-width:480px){.servicos-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.servicos-grid{grid-template-columns:repeat(3,1fr)}}
+.servico-card{background:var(--osso);border:1px solid #E5E1D8;border-radius:14px;padding:1.75rem;transition:border-color .4s,box-shadow .4s,transform .4s var(--ease);position:relative;overflow:hidden}
+.servico-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--laranja),var(--laranja));transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.servico-card:hover{border-color:transparent;box-shadow:0 16px 48px rgba(0,0,0,.09);transform:translateY(-4px)}
+.servico-card:hover::before{transform:scaleX(1)}
+.servico-card.featured{background:var(--laranja);border-color:var(--laranja)}
+.servico-card.featured::before{background:linear-gradient(90deg,var(--laranja),var(--laranja-lt));transform:scaleX(1)}
+.servico-icon{width:48px;height:48px;border-radius:10px;background:rgba(243,130,31,.1);color:var(--laranja);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:1.2rem;transition:background .4s,color .4s}
+.servico-card:hover .servico-icon:not(.feat-icon){background:var(--laranja);color:#fff}
+.feat-icon{background:rgba(255,255,255,.12);color:#fff}
+.servico-title{font-size:.95rem;font-weight:600;color:var(--preto);margin-bottom:.55rem}
+.servico-card.featured .servico-title{color:#fff}
+.servico-desc{font-size:.82rem;color:#666;line-height:1.7}
+.servico-card.featured .servico-desc{color:rgba(255,255,255,.6)}
+.servico-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:600;color:var(--laranja);text-decoration:none;margin-top:1.2rem;transition:gap .3s}
+.servico-card.featured .servico-link{color:rgba(255,255,255,.75)}
+.servico-link:hover{gap:.7rem}
+
+/* ── PROJETOS ── */
+#projetos{padding:6rem 0;background:var(--preto)}
+@media(min-width:768px){#projetos{padding:8rem 0}}
+#projetos .inner{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:640px){#projetos .inner{padding:0 2.5rem}}
+.projetos-header{display:flex;flex-direction:column;gap:1.5rem;margin-bottom:3rem}
+@media(min-width:768px){.projetos-header{flex-direction:row;align-items:flex-end;justify-content:space-between}}
+.projetos-header .section-title{color:#fff}
+.filter-group{display:flex;flex-wrap:wrap;gap:.5rem}
+.filter-btn{background:none;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.5);cursor:pointer;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.42rem .9rem;border-radius:100px;transition:all .3s;-webkit-tap-highlight-color:transparent}
+.filter-btn:hover{color:#fff;border-color:rgba(255,255,255,.38)}
+.filter-btn.active{background:var(--laranja);border-color:var(--laranja);color:var(--preto);font-weight:600}
+.projects-grid{display:grid;gap:1rem}
+@media(min-width:480px){.projects-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.projects-grid{grid-template-columns:repeat(3,1fr)}}
+.project-card{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;background:#1a1a18;transition:transform .5s var(--ease),box-shadow .5s}
+.project-card:hover{transform:translateY(-5px);box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.card-img{position:relative;overflow:hidden}
+.card-img img{width:100%;height:200px;object-fit:cover;transition:transform .8s var(--ease),filter .5s;filter:brightness(.85)}
+@media(min-width:640px){.card-img img{height:240px}}
+.project-card:hover .card-img img{transform:scale(1.07);filter:brightness(.65)}
+.card-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,16,.95) 0%,rgba(17,17,16,.3) 60%,transparent 100%)}
+.card-badge{position:absolute;top:.9rem;left:.9rem;background:rgba(17,17,16,.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .7rem;border-radius:100px}
+.card-expand{position:absolute;top:.9rem;right:.9rem;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;opacity:0;transform:scale(.8);transition:opacity .3s,transform .3s var(--ease);cursor:pointer}
+.project-card:hover .card-expand{opacity:1;transform:scale(1)}
+.card-body{padding:1.1rem 1.3rem 1.3rem}
+.card-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.card-title{font-size:.95rem;font-weight:600;color:#fff;line-height:1.3}
+.card-year{font-family:'Bebas Neue',sans-serif;color:var(--laranja-lt);font-size:.95rem;flex-shrink:0}
+.card-location{color:rgba(255,255,255,.38);font-size:.75rem;margin-top:.25rem}
+.card-location i{color:var(--laranja);font-size:.65rem;margin-right:.2rem}
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:.9rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07)}
+.card-dim-label{font-size:.62rem;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.14em}
+.card-dim-value{font-size:.82rem;font-weight:600;color:var(--azul)}
+.projetos-cta{text-align:center;margin-top:3rem}
+.projetos-cta a{display:inline-flex;align-items:center;gap:.6rem;border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.7);font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.9rem 2rem;border-radius:8px;text-decoration:none;transition:background .3s,color .3s,border-color .3s,transform .3s}
+.projetos-cta a:hover{background:#fff;color:var(--preto);border-color:#fff;transform:translateY(-2px)}
+
+/* ── SUSTENTABILIDADE ── */
+#sustentabilidade{padding:6rem 0;background:#081524;position:relative;overflow:hidden}
+@media(min-width:768px){#sustentabilidade{padding:8rem 0}}
+#sustentabilidade .dot-grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,white 1px,transparent 0);background-size:28px 28px}
+#sustentabilidade .inner{max-width:1280px;margin:0 auto;padding:0 1.5rem;position:relative}
+@media(min-width:640px){#sustentabilidade .inner{padding:0 2.5rem}}
+.sust-grid{display:grid;gap:4rem;align-items:center}
+@media(min-width:1024px){.sust-grid{grid-template-columns:1fr 1fr;gap:5rem}}
+.sust-content .section-title{color:#fff}
+.sust-content > p{color:rgba(255,255,255,.48);line-height:1.8;margin-top:1.4rem;font-size:.95rem}
+.pillars{display:flex;flex-direction:column;gap:1.75rem;margin-top:2.5rem}
+.pillar{display:flex;align-items:flex-start;gap:1.1rem}
+.pillar-icon{width:42px;height:42px;border-radius:50%;flex-shrink:0;background:rgba(0,137,194,.2);display:flex;align-items:center;justify-content:center;color:var(--azul)}
+.pillar h4{color:#fff;font-size:.9rem;font-weight:600;margin-bottom:.3rem}
+.pillar p{color:rgba(255,255,255,.42);font-size:.8rem;line-height:1.7}
+.sust-img{position:relative}
+.sust-img-inner{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:3/4}
+.sust-img-inner img{width:100%;height:100%;object-fit:cover}
+.sust-img-inner::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,21,36,.5),transparent 50%)}
+.sust-stat{position:absolute;bottom:-1.5rem;left:-1.5rem;background:var(--laranja);border-radius:12px;padding:1.2rem 1.5rem;box-shadow:0 20px 60px rgba(243,130,31,.3);display:none}
+@media(min-width:640px){.sust-stat{display:block}}
+.sust-stat .num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:#fff;line-height:1}
+.sust-stat .lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:.2rem}
+
+/* ── CTA BAND ── */
+#cta-band{padding:5rem 0;background:var(--laranja);position:relative;overflow:hidden}
+#cta-band .dot-grid{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,white 1px,transparent 0);background-size:24px 24px}
+#cta-band .glow{position:absolute;border-radius:50%;background:rgba(255,255,255,.06);filter:blur(60px)}
+#cta-band .glow-r{width:300px;height:300px;top:-100px;right:-100px}
+#cta-band .glow-l{width:280px;height:280px;bottom:-80px;left:-80px}
+#cta-band .inner{position:relative;max-width:700px;margin:0 auto;padding:0 1.5rem;text-align:center}
+@media(min-width:640px){#cta-band .inner{padding:0 2.5rem}}
+#cta-band .section-eyebrow{justify-content:center}
+#cta-band .section-eyebrow .rule{background:rgba(243,130,31,.4)}
+#cta-band .section-title{color:#fff}
+#cta-band p{color:rgba(255,255,255,.62);line-height:1.75;margin-top:1rem;font-size:1rem}
+.btn-white{display:inline-flex;align-items:center;gap:.6rem;background:#fff;color:var(--laranja);font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:1rem 2.2rem;border-radius:8px;text-decoration:none;margin-top:2.2rem;box-shadow:0 8px 32px rgba(0,0,0,.15);transition:background .3s,transform .3s,box-shadow .3s}
+.btn-white:hover{background:var(--osso);transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.2)}
+
+/* ── NOTÍCIAS CARROSSEL ── */
+#noticias{padding:6rem 0;background:var(--osso)}
+@media(min-width:768px){#noticias{padding:8rem 0}}
+#noticias .inner{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:640px){#noticias .inner{padding:0 2.5rem}}
+.noticias-header{display:flex;flex-direction:column;gap:1.2rem;margin-bottom:3rem}
+@media(min-width:768px){.noticias-header{flex-direction:row;align-items:flex-end;justify-content:space-between}}
+.noticias-header .section-title{color:var(--preto)}
+.carousel-controls{display:flex;align-items:center;gap:.7rem}
+.carousel-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(17,17,16,.18);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--preto);font-size:.82rem;transition:background .3s,color .3s,border-color .3s;-webkit-tap-highlight-color:transparent}
+.carousel-btn:hover{background:var(--laranja);color:#fff;border-color:var(--laranja)}
+.carousel-count{font-size:.82rem;font-weight:600;color:var(--preto);min-width:2.8rem;text-align:center}
+.carousel-viewport{overflow:hidden;border-radius:16px}
+.carousel-track{display:flex;transition:transform .55s var(--ease)}
+.noticia-card{background:var(--branco);border:1px solid #E5E1D8;border-radius:0;overflow:hidden;flex:0 0 100%;width:100%;display:grid;grid-template-columns:1fr}
+@media(min-width:640px){.noticia-card{grid-template-columns:1fr 1fr;border-radius:16px}}
+.noticia-card .n-img{position:relative;overflow:hidden;min-height:200px}
+@media(min-width:640px){.noticia-card .n-img{min-height:340px}}
+.noticia-card .n-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.noticia-card:hover .n-img img{transform:scale(1.04)}
+.noticia-card .n-cat{position:absolute;bottom:.75rem;left:.75rem;background:var(--laranja);color:#fff;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .7rem;border-radius:100px}
+.noticia-card .n-body{padding:2rem;display:flex;flex-direction:column;justify-content:center}
+@media(min-width:640px){.noticia-card .n-body{padding:2.5rem}}
+.noticia-card .n-date{font-size:.7rem;color:#aaa;margin-bottom:.45rem}
+.noticia-card .n-title{font-family:'Archivo Black',sans-serif;font-size:clamp(1.2rem,2.5vw,1.75rem);font-weight:700;color:var(--preto);line-height:1.3}
+.noticia-card .n-desc{font-size:.88rem;color:#666;line-height:1.75;margin-top:.9rem}
+.noticia-card .n-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:600;color:var(--laranja);text-decoration:none;margin-top:1.3rem;transition:gap .3s}
+.noticia-card .n-link:hover{gap:.7rem}
+.carousel-dots{display:flex;justify-content:center;gap:.45rem;margin-top:1.5rem}
+.c-dot{width:7px;height:7px;border-radius:50%;background:rgba(17,17,16,.14);border:none;cursor:pointer;transition:background .3s,transform .3s;padding:0;-webkit-tap-highlight-color:transparent}
+.c-dot.active{background:var(--laranja);transform:scale(1.3)}
+
+/* ── CONTACTO ── */
+#contacto{padding:6rem 0;background:var(--preto)}
+@media(min-width:768px){#contacto{padding:8rem 0}}
+#contacto .inner{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:640px){#contacto .inner{padding:0 2.5rem}}
+#contacto .section-header-center .section-title{color:#fff}
+.contact-grid{display:grid;gap:3.5rem}
+@media(min-width:1024px){.contact-grid{grid-template-columns:1fr 1fr;gap:4rem}}
+.contact-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:.82rem 1.05rem;color:#fff;font-family:'Outfit',sans-serif;font-size:.9rem;transition:border-color .3s,background .3s,box-shadow .3s;outline:none}
+.contact-input::placeholder{color:rgba(255,255,255,.28)}
+.contact-input:focus{border-color:var(--azul);background:rgba(255,255,255,.07);box-shadow:0 0 0 3px rgba(0,137,194,.2)}
+.contact-input option{background:var(--preto);color:#fff}
+textarea.contact-input{resize:none}
+.contact-label{display:block;font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:.5rem}
+.c2{display:grid;gap:1.1rem}
+@media(min-width:480px){.c2{grid-template-columns:1fr 1fr}}
+.btn-submit{width:100%;background:var(--laranja);color:#fff;border:none;cursor:pointer;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:1rem;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .3s,transform .3s;-webkit-tap-highlight-color:transparent}
+.btn-submit:hover{background:var(--azul);transform:translateY(-2px)}
+.form-success{display:none;text-align:center;padding:1rem;background:rgba(0,137,194,.2);border-radius:10px;color:var(--azul);font-size:.88rem;font-weight:600}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.info-card{display:block;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:1.1rem;color:inherit;text-decoration:none;transition:background .3s}
+.info-card:hover{background:rgba(255,255,255,.07)}
+.info-card-icon{width:36px;height:36px;border-radius:8px;background:rgba(243,130,31,.25);display:flex;align-items:center;justify-content:center;color:var(--azul);font-size:.85rem;margin-bottom:.7rem}
+.info-card-label{font-size:.62rem;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.12em}
+.info-card-value{font-size:.82rem;color:#fff;margin-top:.2rem;word-break:break-all}
+.map-wrap{border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.07);margin-top:.9rem}
+.map-wrap iframe{display:block;width:100%;height:220px;filter:grayscale(35%)}
+@media(min-width:640px){.map-wrap iframe{height:240px}}
+
+/* ── MODAL ── */
+#projectModal{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:200;padding:1rem}
+#projectModal.open{display:flex}
+#modalContent{background:var(--branco);width:100%;max-width:860px;border-radius:20px;overflow:hidden;transform:scale(.95) translateY(20px);opacity:0;transition:transform .4s var(--ease),opacity .4s;max-height:92dvh;overflow-y:auto}
+#projectModal.open #modalContent{transform:scale(1) translateY(0);opacity:1}
+.modal-img-wrap{position:relative;height:250px}
+@media(min-width:640px){.modal-img-wrap{height:320px}}
+.modal-img-wrap img{width:100%;height:100%;object-fit:cover}
+.modal-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,16,.7),transparent 50%)}
+#closeModal{position:absolute;top:1rem;right:1rem;z-index:1;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.3);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:background .3s;-webkit-tap-highlight-color:transparent}
+#closeModal:hover{background:rgba(255,255,255,.15)}
+.modal-title-wrap{position:absolute;bottom:1.2rem;left:1.5rem;z-index:1}
+#modalTitle{font-family:'Archivo Black',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#fff}
+.modal-body{padding:1.5rem}
+@media(min-width:640px){.modal-body{display:grid;grid-template-columns:3fr 2fr;gap:2rem;padding:2.2rem}}
+.modal-desc-label{font-size:.65rem;color:#aaa;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.7rem}
+#modalDescription{color:#555;line-height:1.8;font-size:.92rem}
+.modal-sheet{background:var(--osso);border-radius:12px;padding:1.3rem;margin-top:1.5rem}
+@media(min-width:640px){.modal-sheet{margin-top:0}}
+.modal-sheet-title{font-size:.65rem;color:#aaa;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.9rem}
+.sheet-item{display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid #E5E1D8}
+.sheet-item:last-child{border-bottom:none}
+.sheet-key{font-size:.8rem;color:#888}
+.sheet-val{font-size:.82rem;font-weight:600;color:var(--preto)}
+.sheet-val.green{color:var(--laranja)}
+
+/* ── FOOTER ── */
+footer{background:#090909;color:#555;padding-top:4.5rem}
+footer .inner{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+@media(min-width:640px){footer .inner{padding:0 2.5rem}}
+footer .footer-grid{display:grid;gap:2.5rem;padding-bottom:3.5rem}
+@media(min-width:640px){footer .footer-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){footer .footer-grid{grid-template-columns:2fr 1fr 1fr 1.5fr}}
+.footer-brand p{font-size:.82rem;line-height:1.75;margin-top:1rem;margin-bottom:1.4rem}
+.social-links{display:flex;gap:.55rem}
+.social-link{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#555;font-size:.8rem;text-decoration:none;transition:background .3s,color .3s}
+.social-link:hover{background:var(--laranja);color:#fff}
+.footer-col h4{color:#fff;font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.2rem}
+.footer-links{list-style:none}
+.footer-links li{margin-bottom:.6rem}
+.footer-links a{color:#555;text-decoration:none;font-size:.82rem;transition:color .3s,padding-left .3s}
+.footer-links a:hover{color:#fff;padding-left:4px}
+.footer-contact{display:flex;flex-direction:column;gap:.9rem}
+.fci{display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem}
+.fci i{color:var(--laranja);margin-top:2px;flex-shrink:0;font-size:.75rem}
+.fci a{color:#555;text-decoration:none;transition:color .3s}
+.fci a:hover{color:#fff}
+footer .bottom{border-top:1px solid rgba(255,255,255,.05);padding:1.6rem 0;display:flex;flex-direction:column;gap:.9rem;align-items:center;text-align:center}
+@media(min-width:768px){footer .bottom{flex-direction:row;justify-content:space-between;text-align:left}}
+footer .bottom p{font-size:.75rem}
+.legal-links{display:flex;gap:1.3rem;flex-wrap:wrap;justify-content:center}
+.legal-links a{font-size:.75rem;color:#444;text-decoration:none;transition:color .3s}
+.legal-links a:hover{color:#fff}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+
+<!-- HEADER -->
+<header id="cabecalho">
+  <div class="inner">
+    <a href="#inicio" class="logo-wrap">
+      <div class="logo-mark"><img src="assets/imagens/logo.jpg" alt="Logótipo Eufratungos" onerror="this.style.display='none';this.parentElement.style.background='var(--preto)'"></div>
+      <div><span class="logo-name">Eufratungos</span><span class="logo-tagline">Comércio · Serviços · Construção</span></div>
+    </a>
+    <nav class="desktop">
+      <a href="#inicio" class="nav-link">Início</a>
+      <a href="#sobre" class="nav-link">Sobre</a>
+      <a href="#servicos" class="nav-link">Serviços</a>
+      <a href="#projetos" class="nav-link">Projectos</a>
+      <a href="#noticias" class="nav-link">Notícias</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+      <a href="gestores/index.html" class="nav-link" aria-label="Gestores"><i class="fa-solid fa-user"></i></a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:.9rem">
+      <a href="#contacto" class="btn-proposta">Solicitar Pedido <i class="fa-solid fa-arrow-right" style="font-size:.6rem"></i></a>
+      <button id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu principal">
+  <nav style="display:flex;flex-direction:column;align-items:center;gap:.2rem">
+    <a href="#inicio" class="mobile-nav-link">Início</a>
+    <a href="#sobre" class="mobile-nav-link">Sobre</a>
+    <a href="#servicos" class="mobile-nav-link">Serviços</a>
+    <a href="#projetos" class="mobile-nav-link">Projectos</a>
+    <a href="#noticias" class="mobile-nav-link">Notícias</a>
+    <a href="#contacto" class="mobile-nav-link">Contacto</a>
+    <a href="gestores/index.html" class="mobile-nav-link"><i class="fa-solid fa-user"></i> Gestores</a>
+  </nav>
+  <a href="#contacto" class="mobile-cta">Solicitar Pedido</a>
+</div>
+
+<!-- HERO -->
+<section id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow"><span class="dot"></span>EUFRATUNGOS, LDA</p>
+    <h1 class="hero-headline">
+      <span class="line"><span>Construímos e</span></span>
+      <span class="line"><span class="outline">Servimos Angola</span></span>
+    </h1>
+    <p class="hero-subtext">A Eufratungos, Lda é uma empresa angolana dedicada ao comércio geral, prestação de serviços, construção civil e obras públicas, com soluções sólidas e à medida das suas necessidades.</p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Fale Connosco <i class="fa-solid fa-arrow-right arrow" style="font-size:.65rem"></i></a>
+      <a href="#servicos" class="btn-ghost">Nossos Serviços</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="inner">
+    <div class="grid-2">
+      <div class="img-frame reveal">
+        <div class="img-frame-inner">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80" alt="Equipa de construção em obra" loading="lazy">
+        </div>
+        <div class="img-badge"><div class="num">04</div><div class="lbl">Áreas de<br>Atuação</div></div>
+        <div class="img-accent"></div>
+      </div>
+      <div class="sobre-content reveal" style="transition-delay:.12s">
+        <div class="section-eyebrow"><div class="rule"></div><span>Quem Somos</span></div>
+        <h2 class="section-title">Uma resposta directa para necessidades diversas</h2>
+        <p class="sobre-desc">A Eufratungos, Lda actua em quatro frentes complementares: comércio geral, prestação de serviços, construção civil e obras públicas. Trabalhamos com uma abordagem prática, orientada para cada necessidade e para a execução responsável.</p>
+        <div class="values-grid">
+          <div class="value-item"><h4>Actuação integrada</h4><p>Comércio, serviços e construção articulados numa só empresa.</p></div>
+          <div class="value-item"><h4>Foco na execução</h4><p>Soluções claras para necessidades de empresas e instituições.</p></div>
+        </div>
+        <div class="cert-list">
+          <span class="cert-item"><i class="fa-solid fa-check"></i> Comércio geral</span>
+          <span class="cert-item"><i class="fa-solid fa-check"></i> Prestação de serviços</span>
+          <span class="cert-item"><i class="fa-solid fa-check"></i> Construção e obras públicas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="inner">
+    <div class="section-header-center reveal">
+      <div class="section-eyebrow"><div class="rule"></div><span>Áreas de Atuação</span><div class="rule"></div></div>
+      <h2 class="section-title">Soluções para quatro áreas de actuação</h2>
+      <p>Comércio geral, serviços, construção civil e obras públicas para responder de forma integrada às suas necessidades.</p>
+    </div>
+    <div class="servicos-grid">
+      <div class="servico-card reveal"><div class="servico-icon"><i class="fa-solid fa-boxes-stacked"></i></div><h4 class="servico-title">Comércio Geral</h4><p class="servico-desc">Fornecimento de materiais, bens e soluções para necessidades operacionais e de projecto.</p><a href="#contacto" class="servico-link">Falar connosco <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="servico-card reveal"><div class="servico-icon"><i class="fa-solid fa-briefcase"></i></div><h4 class="servico-title">Prestação de Serviços</h4><p class="servico-desc">Apoio a empresas e instituições com serviços adaptados às necessidades apresentadas.</p><a href="#contacto" class="servico-link">Falar connosco <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="servico-card featured reveal"><div class="servico-icon feat-icon"><i class="fa-solid fa-helmet-safety"></i></div><h4 class="servico-title">Construção Civil</h4><p class="servico-desc">Construção, reabilitação e manutenção civil para diferentes tipos de espaços e estruturas.</p><a href="#contacto" class="servico-link">Falar connosco <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="servico-card reveal"><div class="servico-icon"><i class="fa-solid fa-road"></i></div><h4 class="servico-title">Obras Públicas e Infraestrutura</h4><p class="servico-desc">Apoio à execução de intervenções de infraestrutura e interesse público.</p><a href="#contacto" class="servico-link">Falar connosco <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section id="projetos">
+  <div class="inner">
+    <div class="projetos-header reveal">
+      <div>
+        <div class="section-eyebrow"><div class="rule" style="background:rgba(243,130,31,.55)"></div><span>Trabalhos Feitos por Nós</span></div>
+        <h2 class="section-title">Nossos Projectos</h2>
+      </div>
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="comercio">Comércio</button>
+        <button class="filter-btn" data-filter="construcao">Construção</button>
+        <button class="filter-btn" data-filter="obras-publicas">Obras Públicas</button>
+
+      </div>
+    </div>
+    <div class="projects-grid" id="projectsGrid"></div>
+    <div class="projetos-cta reveal">
+      <a href="projetos/detalhe.html">Ver exemplos de projectos <i class="fa-solid fa-arrow-right" style="font-size:.65rem"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- SUSTENTABILIDADE -->
+<section id="sustentabilidade">
+  <div class="dot-grid"></div>
+  <div class="inner">
+    <div class="sust-grid">
+      <div class="sust-content reveal">
+        <div class="section-eyebrow"><div class="rule"></div><span>O Nosso Compromisso</span></div>
+        <h2 class="section-title">Construímos hoje a pensar no amanhã</h2>
+        <p>Em cada pedido, a Eufratungos procura alinhar o serviço, o fornecimento e a execução às necessidades concretas do cliente ou da instituição.</p>
+        <div class="pillars">
+          <div class="pillar"><div class="pillar-icon"><i class="fa-solid fa-list-check"></i></div><div><h4>Planeamento</h4><p>Análise clara das necessidades antes de avançar com o fornecimento ou a intervenção.</p></div></div>
+          <div class="pillar"><div class="pillar-icon"><i class="fa-solid fa-helmet-safety"></i></div><div><h4>Execução responsável</h4><p>Atenção às condições de trabalho e aos requisitos aplicáveis a cada actividade.</p></div></div>
+          <div class="pillar"><div class="pillar-icon"><i class="fa-solid fa-handshake"></i></div><div><h4>Relação de proximidade</h4><p>Comunicação directa para acompanhar cada necessidade de comércio, serviço ou obra.</p></div></div>
+        </div>
+      </div>
+      <div class="sust-img reveal" style="transition-delay:.15s">
+        <div class="sust-img-inner">
+          <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=80" alt="Construção sustentável" loading="lazy">
+        </div>
+        <div class="sust-stat"><div class="num">04</div><div class="lbl">Áreas de<br>Actuação</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section id="cta-band">
+  <div class="dot-grid"></div>
+  <div class="glow glow-r"></div><div class="glow glow-l"></div>
+  <div class="inner reveal">
+    <div class="section-eyebrow"><div class="rule"></div><span>Comece Agora</span><div class="rule"></div></div>
+    <h2 class="section-title">Pronto para iniciar o seu grande projeto?</h2>
+    <p>A nossa equipa de especialistas está preparada para analisar as suas necessidades e apresentar uma proposta técnica e comercial rigorosa.</p>
+    <a href="#contacto" class="btn-white">Solicitar Proposta <i class="fa-solid fa-arrow-right" style="font-size:.65rem"></i></a>
+  </div>
+</section>
+
+<!-- NOTÍCIAS -->
+<section id="noticias">
+  <div class="inner">
+    <div class="noticias-header reveal">
+      <div>
+        <div class="section-eyebrow"><div class="rule"></div><span>Atualizações</span></div>
+        <h2 class="section-title">Notícias e Publicações</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+        <div class="carousel-controls">
+          <button id="noticias-prev" class="carousel-btn" aria-label="Anterior"><i class="fa-solid fa-arrow-left"></i></button>
+          <span class="carousel-count"><span id="slide-atual">1</span> / <span id="slide-total">1</span></span>
+          <button id="noticias-next" class="carousel-btn" aria-label="Próxima"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <a href="noticias/show.html" style="display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:600;color:var(--laranja);text-decoration:none;letter-spacing:.08em;border:1px solid var(--laranja);padding:.42rem 1rem;border-radius:100px;transition:background .3s,color .3s">Ver Todas <i class="fa-solid fa-arrow-right" style="font-size:.6rem"></i></a>
+      </div>
+    </div>
+    <div class="carousel-viewport reveal">
+      <div id="noticias-track" class="carousel-track"></div>
+    </div>
+    <div id="carousel-dots" class="carousel-dots"></div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="inner">
+    <div class="section-header-center reveal" style="margin-bottom:3.5rem">
+      <div class="section-eyebrow"><div class="rule" style="background:rgba(243,130,31,.5)"></div><span>Fale Connosco</span><div class="rule" style="background:rgba(243,130,31,.5)"></div></div>
+      <h2 class="section-title">Estamos à sua disposição</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <form id="formulario-contacto" style="display:flex;flex-direction:column;gap:1rem">
+          <div>
+            <div><label class="contact-label">Pessoa de Contacto</label><input type="text" name="pessoa-contacto" placeholder="O seu nome..." class="contact-input"></div>
+          </div>
+          <div class="c2">
+            <div><label class="contact-label">E-mail</label><input type="email" placeholder="email@empresa.com" class="contact-input"></div>
+            <div><label class="contact-label">Telefone</label><input type="tel" placeholder="+244..." class="contact-input"></div>
+          </div>
+          <div><label class="contact-label" for="tipo-pedido">Tipo de Pedido</label><select id="tipo-pedido" name="tipo-pedido" class="contact-input"><option value="Comprar produto">Comprar produto</option><option value="Solicitar um serviço">Solicitar um serviço</option><option value="Fazer um orçamento">Fazer um orçamento</option><option value="Obter uma informação">Obter uma informação</option></select></div>
+          <div><label class="contact-label">O que deseja</label><textarea rows="5" placeholder="Descreva o que precisa..." class="contact-input"></textarea></div>
+          <button type="submit" id="btn-enviar" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Enviar Mensagem</button>
+          <div id="form-success" class="form-success"><i class="fa-solid fa-check-circle" style="margin-right:.4rem"></i>Mensagem enviada! Entraremos em contacto brevemente.</div>
+        </form>
+      </div>
+      <div class="reveal" style="transition-delay:.12s;display:flex;flex-direction:column;gap:1rem">
+        <div class="info-grid">
+          <a class="info-card" href="https://mail.google.com/mail/?view=cm&fs=1&to=eufratungoscomercioservicos@gmail.com" target="_blank" rel="noopener"><div class="info-card-icon"><i class="fa-solid fa-envelope"></i></div><div class="info-card-label">Email</div><div class="info-card-value">eufratungoscomercioservicos@gmail.com</div></a>
+          <a class="info-card" href="tel:+244926541666"><div class="info-card-icon"><i class="fa-solid fa-phone"></i></div><div class="info-card-label">Telefone</div><div class="info-card-value">926 541 666</div></a>
+          <a class="info-card" href="https://maps.app.goo.gl/U3iyoLooyDp8Lnpb8" target="_blank" rel="noopener"><div class="info-card-icon"><i class="fa-solid fa-location-dot"></i></div><div class="info-card-label">Morada</div><div class="info-card-value">Rua D, Bairro Popular, nº 1, depois do Comando da Polícia Nacional, Uíge, Angola</div></a>
+          <a class="info-card" href="https://wa.me/244926541666" target="_blank" rel="noopener"><div class="info-card-icon"><i class="fa-brands fa-whatsapp"></i></div><div class="info-card-label">WhatsApp</div><div class="info-card-value">926 541 666</div></a>
+        </div>
+        <div class="map-wrap"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3249.1364603509996!2d15.057708474028729!3d-7.6211395753509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a48ad85b6f20219%3A0xc143f8e1491f7684!2sEUFRATUNGOS%20LDA%2C%20COMERCIO%20E%20SERVI%C3%87OS!5e1!3m2!1spt-PT!2sao!4v1788743157175!5m2!1spt-PT!2sao" style="border:0;width:100%;height:100%" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Localização Eufratungos, Lda"></iframe></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL PROJETO -->
+<div id="projectModal" role="dialog" aria-modal="true" aria-label="Detalhe do projeto">
+  <div id="modalContent">
+    <div class="modal-img-wrap">
+      <img id="modalImage" alt="">
+      <button id="closeModal" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-title-wrap"><h2 id="modalTitle"></h2></div>
+    </div>
+    <div class="modal-body">
+      <div><p class="modal-desc-label">Descrição do Projeto</p><p id="modalDescription"></p></div>
+      <div class="modal-sheet">
+        <p class="modal-sheet-title">Ficha Técnica</p>
+        <div class="sheet-item"><span class="sheet-key">Localização</span><span id="modalLocation" class="sheet-val"></span></div>
+        <div class="sheet-item"><span class="sheet-key">Ano</span><span id="modalYear" class="sheet-val"></span></div>
+        <div class="sheet-item"><span class="sheet-key">Categoria</span><span id="modalCategory" class="sheet-val green"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo-wrap">
+          <div class="logo-mark"><img src="assets/imagens/logo.jpg" alt="Eufratungos" onerror="this.style.display='none'"></div>
+          <div><span class="logo-name">Eufratungos</span><span class="logo-tagline">Comércio · Serviços · Construção</span></div>
+        </a>
+        <p>Comércio geral, prestação de serviços, construção civil e obras públicas em Angola.</p>
+        <div class="social-links">
+          <a href="https://www.facebook.com/Eufratungos/" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Links Rápidos</h4>
+        <ul class="footer-links">
+          <li><a href="#inicio">Início</a></li><li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#servicos">Serviços</a></li><li><a href="#projetos">Áreas</a></li>
+          <li><a href="#noticias">Notícias</a></li><li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Serviços</h4>
+        <ul class="footer-links">
+          <li><a href="#servicos">Comércio Geral</a></li><li><a href="#servicos">Prestação de Serviços</a></li>
+          <li><a href="#servicos">Construção Civil</a></li><li><a href="#servicos">Obras Públicas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sede</h4>
+        <div class="footer-contact">
+          <div class="fci"><i class="fa-solid fa-location-dot"></i><span>Rua D, Bairro Popular, nº 1, depois do Comando da Polícia Nacional, Uíge, Angola</span></div>
+          <div class="fci"><i class="fa-solid fa-envelope"></i><a href="https://mail.google.com/mail/?view=cm&fs=1&to=eufratungoscomercioservicos@gmail.com" target="_blank" rel="noopener">eufratungoscomercioservicos@gmail.com</a></div>
+          <div class="fci"><i class="fa-solid fa-phone"></i><a href="tel:+244926541666">926 541 666</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>© 2026 Eufratungos, Lda. Todos os direitos reservados.</p>
+      <div class="legal-links"><a href="https://wa.me/244933246680?text=Ol%C3%A1%21%20Vi%20o%20site%20da%20Eufratungos%20e%20gostei%20muito%20do%20trabalho%20da%20SITENDA.%20Gostaria%20de%20pedir%20um%20or%C3%A7amento%20para%20a%20cria%C3%A7%C3%A3o%20de%20um%20site%20para%20o%20meu%20neg%C3%B3cio." target="_blank" rel="noopener">Created by SITENDA</a></div>    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================
+   Eufratungos ENGENHARIA – index.html
+   Dados dinâmicos via Supabase (tabelas: news, projects, ads)
+   ===================================================== */
+(function(){
+'use strict';
+
+// ── DADOS PADRÃO (usados só se a base estiver vazia/offline) ──
+const DEF_NEWS=[
+  {id:'n1',titulo:'Bem-vindo ao novo site da Eufratungos',resumo:'Este espaço será actualizado com informações institucionais e novidades verificadas da empresa.',content:'Bem-vindo ao site da Eufratungos, Lda. As notícias e actualizações publicadas neste espaço serão adicionadas à medida que exista informação institucional confirmada.',categoria:'Institucional',data:'',img:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=70'},
+];
+
+const DEF_PROJECTS=[
+  {id:'p1',titulo:'Fornecimento e logística',categoria:'comercio',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de fornecimento de materiais e apoio logístico; não representa uma obra ou contrato realizado pela Eufratungos.',img:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'},
+  {id:'p2',titulo:'Construção e reabilitação civil',categoria:'construcao',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de intervenção de construção ou reabilitação; não representa uma obra realizada pela Eufratungos.',img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80'},
+  {id:'p3',titulo:'Infraestrutura e obras públicas',categoria:'obras-publicas',local:'Exemplo ilustrativo',ano:'—',desc:'Exemplo ilustrativo de infraestrutura ou obra pública; não representa uma obra realizada pela Eufratungos.',img:'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80'},
+];
+
+// ── CACHE EM MEMÓRIA (preenchida a partir do Supabase) ──
+let newsCache=DEF_NEWS, projectsCache=DEF_PROJECTS, adsCache=[];
+const fmtDate=s=>{try{return new Date(s).toLocaleDateString('pt-PT',{day:'2-digit',month:'long',year:'numeric'});}catch{return s||'';}};
+
+async function carregarDados(){
+  try{
+    const [n,p,a]=await Promise.all([EufraDB.list('news'),EufraDB.list('projects'),EufraDB.list('ads')]);
+    if(n && n.length) newsCache=n.map(x=>({...x,desc:x.descricao||x.desc}));
+    if(p && p.length) projectsCache=p.map(x=>({...x,desc:x.descricao||x.desc}));
+    if(a) adsCache=a.map(x=>({...x,descricao:x.descricao||x.desc}));
+  }catch(e){ console.error('Falha ao carregar dados do Supabase, a usar dados padrão.', e); }
+  renderProjects();
+  buildCarousel();
+}
+
+// ── SCROLL PROGRESS + HEADER ──────────────────────────
+const prog=document.getElementById('scroll-progress');
+const hdr=document.getElementById('cabecalho');
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  prog.style.width=p+'%';
+  hdr.classList.toggle('scrolled',window.scrollY>60);
+},{passive:true});
+
+// ── HAMBURGER ─────────────────────────────────────────
+const ham=document.getElementById('hamburger');
+const mob=document.getElementById('mobile-menu');
+ham.addEventListener('click',()=>{
+  const o=mob.classList.toggle('open');
+  ham.classList.toggle('open',o);
+  ham.setAttribute('aria-expanded',String(o));
+  document.body.style.overflow=o?'hidden':'';
+});
+document.querySelectorAll('.mobile-nav-link,.mobile-cta').forEach(el=>el.addEventListener('click',()=>{
+  mob.classList.remove('open');ham.classList.remove('open');
+  ham.setAttribute('aria-expanded','false');document.body.style.overflow='';
+}));
+
+// ── REVEAL ────────────────────────────────────────────
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in-view');ro.unobserve(e.target);}
+}),{threshold:.08,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// ── PROJECTS RENDER ───────────────────────────────────
+const catLabel={comercio:'Comércio Geral',construcao:'Construção Civil','obras-publicas':'Obras Públicas'};
+
+function renderProjects(){
+  const projs=projectsCache;
+  const grid=document.getElementById('projectsGrid');
+  grid.innerHTML=projs.slice(0,3).map((p,i)=>`
+    <div class="project-card reveal" style="transition-delay:${i*.1}s"
+      data-category="${p.categoria}" data-title="${p.titulo}" data-image="${p.img}"
+      data-location="${p.local}" data-year="${p.ano}" data-description="${p.desc}">
+      <div class="card-img">
+        <img src="${p.img}" alt="${p.titulo}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=60'">
+        <div class="card-img-overlay"></div>
+        <span class="card-badge">${catLabel[p.categoria]||p.categoria}</span>
+        <button class="card-expand" aria-label="Ver projeto"><i class="fa-solid fa-expand"></i></button>
+      </div>
+      <div class="card-body">
+        <div class="card-meta"><h3 class="card-title">${p.titulo}</h3><span class="card-year">${p.ano}</span></div>
+        <p class="card-location"><i class="fa-solid fa-location-dot"></i> ${p.local}</p>
+      </div>
+    </div>`).join('');
+  grid.querySelectorAll('.project-card').forEach(c=>{
+    c.addEventListener('click',()=>openModal(c));
+    ro.observe(c);
+  });
+}
+
+// ── FILTROS (redirecionam para detalhe.html) ───────────
+document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  const f=btn.dataset.filter;
+  window.location.href=`projetos/detalhe.html${f==='all'?'':'?filter='+f}`;
+}));
+
+// ── MODAL PROJETO ────────────────────────────────────
+const modal=document.getElementById('projectModal');
+function openModal(c){
+  document.getElementById('modalImage').src=c.dataset.image||'';
+  document.getElementById('modalTitle').textContent=c.dataset.title||'';
+  document.getElementById('modalDescription').textContent=c.dataset.description||'';
+  document.getElementById('modalLocation').textContent=c.dataset.location||'—';
+  document.getElementById('modalYear').textContent=c.dataset.year||'—';
+  document.getElementById('modalCategory').textContent=catLabel[c.dataset.category]||c.dataset.category||'—';
+  modal.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('closeModal').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// ── NOTÍCIAS CARROSSEL ────────────────────────────────
+let ci=0;
+const track=document.getElementById('noticias-track');
+const dotsEl=document.getElementById('carousel-dots');
+const saEl=document.getElementById('slide-atual');
+const stEl=document.getElementById('slide-total');
+
+function buildCarousel(){
+  const items=[
+    ...newsCache.filter(n=>n.carrossel===true).map(n=>({...n,tipo:'noticia'})),
+    ...adsCache.filter(a=>a.carrossel===true).map(a=>({...a,resumo:a.descricao||a.desc||'',tipo:'publicidade'}))
+  ].sort((a,b)=>new Date(b.data||b.created_at||0)-new Date(a.data||a.created_at||0));
+  window.carouselItems=items;
+  if(!items.length){
+    track.innerHTML='<div style="padding:3rem;color:#aaa;text-align:center;font-size:.9rem">Sem publicações de momento.</div>';
+    dotsEl.innerHTML='';saEl.textContent='0';stEl.textContent='0';
+    return;
+  }
+  track.innerHTML=items.map(n=>`
+    <article class="noticia-card">
+      <div class="n-img">
+        <img src="${n.img||'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=70'}" alt="${n.titulo}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=70'">
+        <span class="n-cat">${n.categoria}</span>
+      </div>
+      <div class="n-body">
+        <p class="n-date">${fmtDate(n.data)}</p>
+        <h3 class="n-title">${n.titulo}</h3>
+        <p class="n-desc">${n.resumo}</p>
+        <a href="noticias/show.html${n.tipo==='publicidade'?'#publicidades':''}" class="n-link">${n.tipo==='publicidade'?'Ver publicidade':'Ler mais'} <i class="fa-solid fa-arrow-right" style="font-size:.6rem"></i></a>
+      </div>
+    </article>`).join('');
+  dotsEl.innerHTML=items.map((_,i)=>`<button class="c-dot${i===0?' active':''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join('');
+  dotsEl.querySelectorAll('.c-dot').forEach(d=>d.addEventListener('click',()=>goTo(parseInt(d.dataset.i))));
+  stEl.textContent=items.length;
+  goTo(0,false);
+}
+
+function goTo(i,anim=true){
+  const items=window.carouselItems||[];
+  const n=items.length;if(!n)return;
+  ci=(i%n+n)%n;
+  if(!anim)track.style.transition='none';
+  track.style.transform=`translateX(-${ci*100}%)`;
+  if(!anim)requestAnimationFrame(()=>{track.style.transition='';});
+  saEl.textContent=ci+1;
+  dotsEl.querySelectorAll('.c-dot').forEach((d,idx)=>d.classList.toggle('active',idx===ci));
+}
+
+document.getElementById('noticias-prev').addEventListener('click',()=>goTo(ci-1));
+document.getElementById('noticias-next').addEventListener('click',()=>goTo(ci+1));
+track.addEventListener('touchstart',e=>{window._tx=e.touches[0].clientX;},{passive:true});
+track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-window._tx;if(Math.abs(dx)>45)goTo(dx<0?ci+1:ci-1);});
+
+let ap=setInterval(()=>goTo(ci+1),6000);
+[document.getElementById('noticias-prev'),document.getElementById('noticias-next')].forEach(b=>{
+  b.addEventListener('click',()=>{clearInterval(ap);ap=setInterval(()=>goTo(ci+1),6000);});
+});
+carregarDados();
+
+// ── FORMULÁRIO CONTACTO ───────────────────────────────
+document.getElementById('formulario-contacto')?.addEventListener('submit',function(e){
+  e.preventDefault();
+  const btn=document.getElementById('btn-enviar'),ok=document.getElementById('form-success');
+  const tipoPedido=this.querySelector('[name="tipo-pedido"]').value;
+  const mensagensIniciais={
+    'Comprar produto':'Olá, Eufratungos! Gostaria de comprar um produto/material.',
+    'Solicitar um serviço':'Olá, Eufratungos! Gostaria de solicitar um serviço.',
+    'Fazer um orçamento':'Olá, Eufratungos! Gostaria de pedir um orçamento.',
+    'Obter uma informação':'Olá, Eufratungos! Gostaria de obter uma informação.'
+  };
+  const campos=[
+    ['Pessoa de Contacto',this.querySelector('[name="pessoa-contacto"]').value.trim()],
+    ['Email',this.querySelector('input[type="email"]').value.trim()],
+    ['Telefone',this.querySelector('input[type="tel"]').value.trim()],
+    ['O que deseja',this.querySelector('textarea').value.trim()]
+  ];
+  const mensagem=[mensagensIniciais[tipoPedido],'',...campos.filter(([,valor])=>valor).map(([rotulo,valor])=>`${rotulo}: ${valor}`)].join('\n');
+  const url=`https://wa.me/244926541666?text=${encodeURIComponent(mensagem)}`;
+  btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> A enviar...';
+  window.open(url,'_blank');
+  btn.classList.add('hidden');ok.style.display='block';this.reset();
+  setTimeout(()=>{btn.classList.remove('hidden');ok.style.display='none';btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Enviar Mensagem';},5000);
+});
+
+})();
+</script>
+</body>
+</html>
