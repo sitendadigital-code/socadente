@@ -26,8 +26,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 #loginScreen.gone{display:none}
 .login-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:2.8rem 2.4rem;width:100%;max-width:420px;backdrop-filter:blur(20px)}
 .login-logo{display:flex;align-items:center;gap:.7rem;margin-bottom:2.5rem}
-.login-lm{width:40px;height:40px;border-radius:9px;background:var(--v);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(14,165,233,.45);overflow:hidden;flex-shrink:0}
-.login-lm img{width:40px;height:40px;object-fit:cover}
+.login-lm{width:52px;height:52px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.login-lm img{width:52px;height:52px;object-fit:contain}
 .login-lm-txt{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.06em;display:none}
 .login-ln{font-family:'Bebas Neue',sans-serif;color:#fff;font-size:1.2rem;letter-spacing:.15em;line-height:1}
 .login-lt{font-size:.54rem;color:rgba(255,255,255,.35);letter-spacing:.22em;text-transform:uppercase;margin-top:4px}
@@ -85,8 +85,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .sidebar{width:260px;flex-shrink:0;background:rgba(0,0,0,.3);border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
 @media(max-width:900px){.sidebar{display:none}}
 .sb-logo{padding:1.6rem 1.4rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:.7rem}
-.sb-lm{width:34px;height:34px;border-radius:7px;background:var(--v);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-.sb-lm img{width:34px;height:34px;object-fit:cover}
+.sb-lm{width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-lm img{width:44px;height:44px;object-fit:contain}
 .sb-lm-txt{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.06em;display:none}
 .sb-ln{font-family:'Bebas Neue',sans-serif;color:#fff;font-size:1rem;letter-spacing:.15em;line-height:1}
 .sb-lt{font-size:.5rem;color:rgba(255,255,255,.3);letter-spacing:.2em;text-transform:uppercase;margin-top:3px}
@@ -275,7 +275,7 @@ textarea.finp{resize:vertical}
         <img src="../assets/imagens/logo.png" alt="Logótipo Só Cadente" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <span class="login-lm-txt">Só Cadente</span>
       </div>
-      <div><div class="login-ln">Só Cadente</div><div class="login-lt">Clínica Dentária · Luanda</div></div>
+      <div><div class="login-ln">Só Cadente</div><div class="login-lt">Clínica Dentária · Cabinda</div></div>
     </div>
     <h1 class="login-title">Área Restrita</h1>
     <p class="login-sub">Acesso exclusivo para gestores autorizados da Clínica Dentária Só Cadente.</p>
@@ -374,7 +374,7 @@ textarea.finp{resize:vertical}
         <div class="nav-group-lbl">Conteúdo</div>
         <div class="nav-item" data-panel="noticias"><i class="fa-solid fa-newspaper"></i> Notícias <span class="badge" id="sbBadgeN">0</span></div>
         <div class="nav-item" data-panel="publicidades"><i class="fa-solid fa-bullhorn"></i> Publicidades <span class="badge" id="sbBadgeA">0</span></div>
-        <div class="nav-item" data-panel="projetos"><i class="fa-solid fa-building"></i> Projetos <span class="badge" id="sbBadgeP">0</span></div>
+        <div class="nav-item" data-panel="projetos"><i class="fa-solid fa-building"></i> Trabalhos <span class="badge" id="sbBadgeP">0</span></div>
       </div>
       <div class="nav-group">
         <div class="nav-group-lbl">Conta</div>
@@ -404,7 +404,7 @@ textarea.finp{resize:vertical}
       <div class="mn-item a" data-panel="overview">Dashboard</div>
       <div class="mn-item" data-panel="noticias">Notícias</div>
       <div class="mn-item" data-panel="publicidades">Publicidades</div>
-      <div class="mn-item" data-panel="projetos">Projetos</div>
+      <div class="mn-item" data-panel="projetos">Trabalhos</div>
       <div class="mn-item" data-panel="settings">Definições</div>
     </div>
 
@@ -501,7 +501,7 @@ textarea.finp{resize:vertical}
             <div><label class="flbl" for="pLoc">Preço (Kz)</label><input class="finp" id="pLoc" type="number" min="0" placeholder="Deixe vazio para Sob consulta"></div>
             <div><label class="flbl" for="pDim">Serviço</label><select class="finp" id="pDim"><option>Limpeza Dentária</option><option>Clareamento Dental</option><option>Restaurações</option><option>Tratamento de Cáries</option><option>Extrações</option><option>Implantes Dentários</option><option>Próteses Dentárias</option><option>Aparelhos Ortodônticos</option></select></div>
           </div>
-          <div class="check-row"><label><input type="radio" name="tipoApresentacao" value="unica" checked> Foto única</label> <label><input type="radio" name="tipoApresentacao" value="antes_depois"> Antes e depois</label></div><div><span class="flbl">Foto única</span><div class="upload-control"><input type="file" accept="image/*" class="file-input-hidden" id="pImg"><button type="button" class="fbtn upload-btn" data-file-trigger="pImg"><i class="fa-solid fa-image"></i> Escolher foto</button><img class="upload-preview hid" id="pImgPreview" alt="Pré-visualização da imagem"><span class="upload-name" id="pImgName">Nenhum ficheiro selecionado</span></div></div><div class="fg2"><div><label class="flbl" for="pBefore">Imagem antes</label><input class="finp" id="pBefore" type="file" accept="image/*"></div><div><label class="flbl" for="pAfter">Imagem depois</label><input class="finp" id="pAfter" type="file" accept="image/*"></div></div>
+          <div class="check-row"><label><input type="radio" name="tipoApresentacao" value="unica" checked> Foto única</label> <label><input type="radio" name="tipoApresentacao" value="antes_depois"> Antes e depois</label></div><div><span class="flbl">Foto única</span><div class="upload-control"><input type="file" accept="image/*" class="file-input-hidden" id="pImg"><button type="button" class="fbtn upload-btn" data-file-trigger="pImg"><i class="fa-solid fa-image"></i> Escolher foto</button><img class="upload-preview hid" id="pImgPreview" alt="Pré-visualização da imagem"><span class="upload-name" id="pImgName">Nenhum ficheiro selecionado</span></div></div><div class="fg2"><div><span class="flbl">Imagem Antes</span><div class="upload-control"><input type="file" accept="image/*" class="file-input-hidden" id="pBefore"><button type="button" class="fbtn upload-btn" data-file-trigger="pBefore"><i class="fa-solid fa-image"></i> Escolher foto</button><img class="upload-preview hid" id="pBeforePreview" alt="Pré-visualização da imagem antes"><span class="upload-name" id="pBeforeName">Nenhum ficheiro selecionado</span></div></div><div><span class="flbl">Imagem Depois</span><div class="upload-control"><input type="file" accept="image/*" class="file-input-hidden" id="pAfter"><button type="button" class="fbtn upload-btn" data-file-trigger="pAfter"><i class="fa-solid fa-image"></i> Escolher foto</button><img class="upload-preview hid" id="pAfterPreview" alt="Pré-visualização da imagem depois"><span class="upload-name" id="pAfterName">Nenhum ficheiro selecionado</span></div></div></div>
         </div>
         <div class="row-btns">
           <button class="fbtn" id="pSave"><i class="fa-solid fa-floppy-disk" style="font-size:.68rem"></i> Guardar Trabalho</button>
@@ -611,10 +611,10 @@ textarea.finp{resize:vertical}
 let newsData=[], adsData=[], projectsData=[];
 
 const DEF_IMG=[
-  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=60',
-  'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=400&q=60',
-  'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=400&q=60',
-  'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=60',
+  '../assets/imagens/trabalho-exemplo-1.svg',
+  '../assets/imagens/trabalho-exemplo-2.svg',
+  '../assets/imagens/trabalho-exemplo-3.svg',
+  '../assets/imagens/trabalho-exemplo-4.svg',
 ];
 const EMPTY_UPLOAD_NAME='Nenhum ficheiro selecionado';
 
@@ -1089,8 +1089,8 @@ function resetProjectForm(){
   document.getElementById('pId').value='';
   ['pTit','pDesc','pAno','pLoc'].forEach(i=>document.getElementById(i).value='');
   document.getElementById('pDim').selectedIndex=0;
-  document.getElementById('pImg').value='';
-  setImagePreview('pImg');
+  ['pImg','pBefore','pAfter'].forEach(i=>document.getElementById(i).value='');
+  ['pImg','pBefore','pAfter'].forEach(setImagePreview);
   document.getElementById('pFormTitle').innerHTML='<i class="fa-solid fa-plus"></i> Novo Projeto';
   document.getElementById('pCan').classList.add('hid');
 }

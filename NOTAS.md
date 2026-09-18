@@ -2,7 +2,7 @@
 
 - Telefones: `935 976 620` e `940 758 305`
 - WhatsApp: `https://wa.me/244935976620`
-- Morada: Rua da Polícia, Baixa, Luanda, Angola
+- Morada: Rua da Polícia, Baixa, Cabinda, Angola
 - Área de gestores: o acesso é feito através de email e palavra-passe no Supabase Auth.
 
 ## Conteúdo a confirmar

@@ -21,12 +21,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--v);border-radius:4px}
 
 /* HEADER */
-header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(243,130,31,.12)}
+header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(14,165,233,.12)}
 .hw{max-width:1320px;margin:0 auto;padding:.9rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
 @media(min-width:768px){.hw{padding:.95rem 2.5rem}}
 .lw{display:flex;align-items:center;gap:.6rem}
-.lm{width:34px;height:34px;border-radius:7px;background:var(--v);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-.lm img{width:34px;height:34px;object-fit:cover}
+.lm{width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lm img{width:44px;height:44px;object-fit:contain}
 .lm-txt{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.06em}
 .ln{display:block;font-family:'Bebas Neue',sans-serif;color:#fff;font-size:1.1rem;letter-spacing:.15em;line-height:1}
 .lt{display:block;color:rgba(255,255,255,.38);font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;margin-top:4px}
@@ -35,7 +35,7 @@ header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;
 
 /* HERO */
 .hero{background:var(--cm);padding:4rem 0 3rem;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=55') center/cover;opacity:.1;pointer-events:none}
+.hero::before{content:'';position:absolute;inset:0;background:url('../assets/imagens/fundo-paginas.svg') center/cover;opacity:.1;pointer-events:none}
 .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(28,28,26,.6),rgba(28,28,26,.98));pointer-events:none}
 .hero-c{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 1.5rem}
 @media(min-width:768px){.hero-c{padding:0 2.5rem}}
@@ -63,7 +63,7 @@ header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;
 .search-wrap{position:relative;flex:1;max-width:380px}
 .search-wrap i{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#aaa;font-size:.78rem;pointer-events:none}
 #searchInput{width:100%;background:#fff;border:1px solid #E8E4DB;border-radius:8px;padding:.6rem .9rem .6rem 2.3rem;font-family:'Outfit',sans-serif;font-size:.85rem;color:var(--c);outline:none;transition:border-color .3s,box-shadow .3s}
-#searchInput:focus{border-color:var(--v);box-shadow:0 0 0 3px rgba(243,130,31,.08)}
+#searchInput:focus{border-color:var(--v);box-shadow:0 0 0 3px rgba(14,165,233,.08)}
 .cats{display:flex;flex-wrap:wrap;gap:.38rem}
 .catb{border:1px solid #E8E4DB;color:#888;font-size:.67rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.36rem .82rem;border-radius:100px;transition:all .3s;background:#fff}
 .catb:hover{border-color:var(--v);color:var(--v)}
@@ -108,7 +108,7 @@ header{background:rgba(17,17,16,.97);backdrop-filter:blur(24px);position:sticky;
 #articleView.show{display:block}
 .art-back{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--v);font-weight:600;margin-bottom:2rem;transition:gap .3s}
 .art-back:hover{gap:.8rem}
-.art-cat{display:inline-flex;align-items:center;background:rgba(243,130,31,.08);color:var(--v);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;margin-bottom:.9rem}
+.art-cat{display:inline-flex;align-items:center;background:rgba(14,165,233,.08);color:var(--v);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;margin-bottom:.9rem}
 .art-title{font-family:'Archivo Black',sans-serif;font-weight:900;font-size:clamp(1.8rem,4vw,3rem);line-height:1.15;color:var(--c)}
 .art-meta{display:flex;align-items:center;gap:1rem;margin-top:1rem;font-size:.8rem;color:#bbb;flex-wrap:wrap}
 .art-meta i{font-size:.72rem;color:var(--o)}
@@ -198,7 +198,7 @@ footer .back:hover{color:#fff}
         <img src="../assets/imagens/logo.png" alt="Logótipo Só Cadente" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <span class="lm-txt" style="display:none">Só Cadente</span>
       </div>
-      <div><span class="ln">Só Cadente</span><span class="lt">Clínica Dentária · Luanda</span></div>
+      <div><span class="ln">Só Cadente</span><span class="lt">Clínica Dentária · Cabinda</span></div>
     </a>
     <a href="../index.html#contacto" class="hbtn"><i class="fa-solid fa-paper-plane" style="font-size:.64rem"></i> Solicitar Proposta</a>
   </div>
@@ -322,15 +322,15 @@ footer .back:hover{color:#fff}
 'use strict';
 
 const DEF_NEWS=[
-  {id:'n1',titulo:'Bem-vindo ao novo site da Só Cadente',resumo:'Este espaço receberá informações institucionais e novidades verificadas da empresa.',content:'Bem-vindo ao site da Só Cadente. As notícias serão adicionadas à medida que exista informação institucional confirmada.',categoria:'Institucional',data:'',img:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=70'},
+  {id:'n1',titulo:'Bem-vindo ao novo site da Só Cadente',resumo:'Este espaço receberá informações institucionais e novidades verificadas da empresa.',content:'Bem-vindo ao site da Só Cadente. As notícias serão adicionadas à medida que exista informação institucional confirmada.',categoria:'Institucional',data:'',img:'../assets/imagens/trabalho-exemplo-1.svg'},
 ];
 
 const DEF_ADS=[];
 
 const DEF_IMG_FALLBACKS=[
-  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=70',
-  'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=70',
-  'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=800&q=70',
+  '../assets/imagens/trabalho-exemplo-2.svg',
+  '../assets/imagens/trabalho-exemplo-3.svg',
+  '../assets/imagens/trabalho-exemplo-4.svg',
 ];
 
 // ── CACHE EM MEMÓRIA (preenchida a partir do Supabase) ──
